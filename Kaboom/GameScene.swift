@@ -10,23 +10,11 @@ import GameplayKit
 
 class GameScene: SKScene {
 
-    private var label: SKLabelNode?
-    private var spinnyNode: SKShapeNode?
+    private var player: Player = Player()
 
     override func didMove(to view: SKView) {
 
-        // Create shape node to use during mouse interaction
-        let width = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: width, height: width), cornerRadius: width * 0.3)
-
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
+        self.addChild(player)
     }
 
     func touchDown(atPoint pos: CGPoint) {
