@@ -9,10 +9,8 @@ import UIKit
 import SpriteKit
 
 enum GameConfiguration {
-    enum Core {
-        static let gameWidth: CGFloat = 960
-        static let gameHeight: CGFloat = 540
-    }
+        static let gameWidth: CGFloat = 750
+        static let gameHeight: CGFloat = 1334
 }
 
 class GameViewController: UIViewController {
@@ -20,22 +18,18 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        var factor = view.frame.size.height / GameConfiguration.Core.gameHeight
-
-        if view.frame.size.width / factor < GameConfiguration.Core.gameWidth {
-            factor = view.frame.size.width / GameConfiguration.Core.gameWidth
-        }
-
-        let sceneSize = CGSize(width: view.frame.size.width / factor,
-                               height: view.frame.size.height / factor)
-
         guard let view = self.view as? SKView else { return }
-        // Load the SKScene from 'GameScene.sks'
         if let scene = SKScene(fileNamed: "GameScene") {
-            // Set the scale mode to scale to fit the window
-            scene.size = sceneSize
+
+            var factor = view.frame.size.height / GameConfiguration.gameHeight
+            if view.frame.size.width / factor < GameConfiguration.gameWidth {
+                factor = view.frame.size.width / GameConfiguration.gameWidth
+            }
+
+            scene.size = CGSize(width: view.frame.size.width / factor,
+                                height: view.frame.size.height / factor)
             scene.scaleMode = .aspectFit
-            // Present the scene
+
             view.presentScene(scene)
         }
 
