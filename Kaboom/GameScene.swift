@@ -11,6 +11,7 @@ import GameplayKit
 class GameScene: SKScene {
 
     private var player: Player = Player()
+    private var startTouch: CGPoint = CGPoint()
 
     override func didMove(to view: SKView) {
 
@@ -31,10 +32,19 @@ class GameScene: SKScene {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
+        if let touch = touches.first {
+            
+            player.initializeTouch(touch: touch, desiredPos: touch.location(in: self))
+        }
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 
+        for touch in touches {
+            if touch == player.movingTouch {
+                player.moveTouch(desiredPos: touch.location(in: self))
+            }
+        }
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
