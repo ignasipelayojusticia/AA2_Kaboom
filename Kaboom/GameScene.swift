@@ -11,11 +11,12 @@ import GameplayKit
 class GameScene: SKScene {
 
     private var player: Player = Player()
-    private var startTouch: CGPoint = CGPoint()
+    private var bomberman: Bomberman = Bomberman()
 
     override func didMove(to view: SKView) {
 
-        self.addChild(player)
+        addChild(player)
+        addChild(bomberman)
     }
 
     func touchDown(atPoint pos: CGPoint) {

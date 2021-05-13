@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EF478589264AFF0400A6051E /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF478588264AFF0400A6051E /* Player.swift */; };
+		EF47858C264D9F5600A6051E /* Bomberman.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF47858B264D9F5600A6051E /* Bomberman.swift */; };
 		EFE36DFB2628B8CA00D49712 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE36DFA2628B8CA00D49712 /* AppDelegate.swift */; };
 		EFE36DFD2628B8CA00D49712 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EFE36DFC2628B8CA00D49712 /* GameScene.sks */; };
 		EFE36DFF2628B8CA00D49712 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = EFE36DFE2628B8CA00D49712 /* Actions.sks */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		EF478588264AFF0400A6051E /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		EF47858B264D9F5600A6051E /* Bomberman.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bomberman.swift; sourceTree = "<group>"; };
 		EFE36DF72628B8CA00D49712 /* Kaboom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kaboom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE36DFA2628B8CA00D49712 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFE36DFC2628B8CA00D49712 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -45,6 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				EF478588264AFF0400A6051E /* Player.swift */,
+				EF47858B264D9F5600A6051E /* Bomberman.swift */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 				EFE36E012628B8CA00D49712 /* GameScene.swift in Sources */,
 				EFE36E032628B8CA00D49712 /* GameViewController.swift in Sources */,
 				EFE36DFB2628B8CA00D49712 /* AppDelegate.swift in Sources */,
+				EF47858C264D9F5600A6051E /* Bomberman.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
