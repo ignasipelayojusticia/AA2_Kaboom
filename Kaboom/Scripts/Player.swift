@@ -41,21 +41,13 @@ class Player: SKNode {
 
         movingTouch = touch
         desiredPosition = desiredPos
-        runMoveAction()
+        runMoveAction(node: self, desiredPosition: desiredPosition, movementSpeed: moveDuration)
     }
 
     public func moveTouch(desiredPos: CGPoint) {
 
         desiredPosition = desiredPos
-        runMoveAction()
-    }
-
-    private func runMoveAction() {
-
-        let widthFactor = Double(abs(position.x - desiredPosition.x) / GameConfiguration.gameWidth)
-        let moveAction = SKAction.moveTo(x: desiredPosition.x, duration: Double(moveDuration * widthFactor))
-        moveAction.timingMode = SKActionTimingMode.easeInEaseOut
-        run(moveAction)
+        runMoveAction(node: self, desiredPosition: desiredPosition, movementSpeed: moveDuration)
     }
 }
 
