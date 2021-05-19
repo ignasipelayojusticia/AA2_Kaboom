@@ -11,6 +11,7 @@ import SpriteKit
 class Bomberman: SKSpriteNode {
 
     private let bombManager: BombManager
+    private let bomb: Bomb
 
     private var moveDuration: Double = 2
     public var desiredPosition: CGPoint
@@ -26,6 +27,8 @@ class Bomberman: SKSpriteNode {
     init(bombManager: BombManager) {
 
         self.bombManager = bombManager
+        bomb = Bomb(inititalPosition: CGPoint(x: 0, y: bombYOffset), initializePhysics: false)
+        bomb.isHidden = true
 
         desiredPosition = CGPoint(x: 0, y: GameConfiguration.gameHeight / 2  - 300)
         bombDropInterval = 1
@@ -35,6 +38,8 @@ class Bomberman: SKSpriteNode {
         position = desiredPosition
 
         run(SKAction.wait(forDuration: startRoundTimer), completion: startRound)
+
+        addChild(bomb)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -57,7 +62,8 @@ class Bomberman: SKSpriteNode {
         if roundFinished {
             levelUp()
         }
-
+        
+        bomb.isHidden = false
         roundFinished = false
         keepMoving()
         waitToDropBomb()
@@ -75,6 +81,7 @@ class Bomberman: SKSpriteNode {
         if bombsDropped <= bombsToDrop {
             waitToDropBomb()
         } else {
+            bomb.isHidden = true
             roundFinished = true
             run(SKAction.wait(forDuration: startRoundTimer), completion: startRound)
         }
@@ -104,7 +111,7 @@ class BombManager : SKNode {
 
     public func createBomb(initialPosition: CGPoint) {
  
-        let newBomb = Bomb(inititalPosition: initialPosition)
+        let newBomb = Bomb(inititalPosition: initialPosition, initializePhysics: true)
         bombs.append(newBomb)
         addChild(newBomb)
     }
@@ -112,13 +119,15 @@ class BombManager : SKNode {
 
 class Bomb: SKSpriteNode {
 
-    init(inititalPosition: CGPoint) {
+    init(inititalPosition: CGPoint, initializePhysics: Bool) {
 
         super.init(texture: SKTexture(imageNamed: "bomb_3"), color: .clear, size: CGSize(width: 40, height: 45))
 
         position = inititalPosition
 
-        physicsBody = SKPhysicsBody(texture: texture!, size: size)
+        if initializePhysics {
+            physicsBody = SKPhysicsBody(texture: texture!, size: size)
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
