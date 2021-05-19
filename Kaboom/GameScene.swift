@@ -11,11 +11,15 @@ import GameplayKit
 class GameScene: SKScene {
 
     private var player: Player = Player()
-    private var bomberman: Bomberman = Bomberman()
+    private var bombManager: BombManager = BombManager()
+    private var bomberman: Bomberman!
 
     override func didMove(to view: SKView) {
 
+        bomberman = Bomberman(bombManager: bombManager)
+        
         addChild(player)
+        addChild(bombManager)
         addChild(bomberman)
     }
 

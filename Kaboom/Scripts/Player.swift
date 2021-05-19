@@ -21,7 +21,7 @@ class Player: SKNode {
 
         lives = [WoodenPanel]()
 
-        desiredPosition = CGPoint(x: 0, y: -GameConfiguration.gameHeight / 2 + 200)
+        desiredPosition = CGPoint(x: 0, y: -GameConfiguration.gameHeight / 2 + 100)
 
         super.init()
 
