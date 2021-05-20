@@ -17,11 +17,14 @@ class Player: SKNode {
     public var movingTouch: UITouch?
     public var desiredPosition: CGPoint
 
+    private var losingLive: Bool
+    
     override init() {
 
         lives = [WoodenPanel]()
 
         desiredPosition = CGPoint(x: 0, y: -GameConfiguration.gameHeight / 2 + 100)
+        losingLive = false
 
         super.init()
 
@@ -48,6 +51,16 @@ class Player: SKNode {
 
         desiredPosition = desiredPos
         runMoveAction(node: self, desiredPosition: desiredPosition, movementSpeed: moveDuration)
+    }
+    
+    public func loseLive() {
+        
+        if losingLive || lives.count == 0 {
+            return
+        }
+        losingLive = true
+        lives.last?.removeFromParent()
+        print("hello")
     }
 }
 

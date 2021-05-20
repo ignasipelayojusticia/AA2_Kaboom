@@ -8,7 +8,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
 
     private var player: Player = Player()
     private var bombManager: BombManager = BombManager()
@@ -16,11 +16,13 @@ class GameScene: SKScene {
 
     override func didMove(to view: SKView) {
 
-        bomberman = Bomberman(bombManager: bombManager)
-        
+        bomberman = Bomberman(player: player, bombManager: bombManager)
+
         addChild(player)
         addChild(bombManager)
         addChild(bomberman)
+        
+        physicsWorld.contactDelegate = self
     }
 
     func touchDown(atPoint pos: CGPoint) {
@@ -38,17 +40,15 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
         if let touch = touches.first {
-            
+
             player.initializeTouch(touch: touch, desiredPos: touch.location(in: self))
         }
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-        for touch in touches {
-            if touch == player.movingTouch {
-                player.moveTouch(desiredPos: touch.location(in: self))
-            }
+        for touch in touches where touch == player.movingTouch {
+            player.moveTouch(desiredPos: touch.location(in: self))
         }
     }
 
@@ -62,5 +62,15 @@ class GameScene: SKScene {
 
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        guard let nodeA = contact.bodyA.node else {return}
+        guard let nodeB = contact.bodyB.node else {return}
+        
+        if nodeA.name == "BombEndCollider" || nodeB.name == "BombEndCollider" {
+            bomberman.bombOnEnd()
+        }
     }
 }

@@ -10,6 +10,7 @@ import SpriteKit
 
 class Bomberman: SKSpriteNode {
 
+    private let player: Player
     private let bombManager: BombManager
     private let bomb: Bomb
 
@@ -24,8 +25,9 @@ class Bomberman: SKSpriteNode {
 
     private let bombYOffset: Int = -40
 
-    init(bombManager: BombManager) {
+    init(player: Player, bombManager: BombManager) {
 
+        self.player = player
         self.bombManager = bombManager
         bomb = Bomb(inititalPosition: CGPoint(x: 0, y: bombYOffset), initializePhysics: false)
         bomb.isHidden = true
@@ -62,7 +64,7 @@ class Bomberman: SKSpriteNode {
         if roundFinished {
             levelUp()
         }
-        
+
         bomb.isHidden = false
         roundFinished = false
         keepMoving()
@@ -90,19 +92,39 @@ class Bomberman: SKSpriteNode {
     private func levelUp() {
 
         moveDuration *= 0.75
-        bombDropInterval *= 0.8
+        bombDropInterval *= 0.75
         bombsToDrop = (Int)(Double(bombsToDrop) * 1.5)
         bombsDropped = 0
     }
+    
+    public func bombOnEnd() {
+
+        bombManager.bombOnEnd()
+        player.loseLive()
+    }
 }
 
-class BombManager : SKNode {
+class BombManager: SKNode {
 
     public var bombs: [Bomb] = []
+    private let bombEndCollider: SKSpriteNode
 
     override init() {
- 
+
+        bombEndCollider = SKSpriteNode(color: UIColor.green,
+                                       size: CGSize(width: GameConfiguration.gameWidth, height: 30))
+        bombEndCollider.name = "BombEndCollider"
+        bombEndCollider.position = CGPoint(x: 0, y: -GameConfiguration.gameHeight / 2 + 50)
+        bombEndCollider.physicsBody = SKPhysicsBody(rectangleOf: bombEndCollider.size)
+        bombEndCollider.physicsBody?.affectedByGravity = false
+        bombEndCollider.physicsBody?.isDynamic = false
+        bombEndCollider.physicsBody?.categoryBitMask = CategoryBitMasks.bombEndBitMask
+        bombEndCollider.physicsBody?.collisionBitMask = CategoryBitMasks.bombBitMask
+        bombEndCollider.physicsBody?.contactTestBitMask = bombEndCollider.physicsBody!.collisionBitMask
+
         super.init()
+
+        addChild(bombEndCollider)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -110,10 +132,20 @@ class BombManager : SKNode {
     }
 
     public func createBomb(initialPosition: CGPoint) {
- 
+
         let newBomb = Bomb(inititalPosition: initialPosition, initializePhysics: true)
+        newBomb.name = "Bomb"
         bombs.append(newBomb)
         addChild(newBomb)
+    }
+
+    public func bombOnEnd() {
+
+        for number in 0..<bombs.count {
+            //bombs[number].physicsBody?.affectedByGravity = false
+            //bombs[number].physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            bombs[number].explode()
+        }
     }
 }
 
@@ -121,16 +153,25 @@ class Bomb: SKSpriteNode {
 
     init(inititalPosition: CGPoint, initializePhysics: Bool) {
 
-        super.init(texture: SKTexture(imageNamed: "bomb_3"), color: .clear, size: CGSize(width: 40, height: 45))
+        super.init(texture: SKTexture(imageNamed: "bomb_3"), color: .clear, size: CGSize(width: 55, height: 65))
 
         position = inititalPosition
 
         if initializePhysics {
             physicsBody = SKPhysicsBody(texture: texture!, size: size)
+            physicsBody?.categoryBitMask = CategoryBitMasks.bombBitMask
+            physicsBody?.collisionBitMask = CategoryBitMasks.playerBitMask | CategoryBitMasks.bombEndBitMask
+            physicsBody?.contactTestBitMask = physicsBody!.collisionBitMask
         }
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func explode() {
+        
+        physicsBody?.contactTestBitMask = CategoryBitMasks.playerBitMask
+        //removeFromParent()
     }
 }

@@ -9,8 +9,8 @@ import UIKit
 import SpriteKit
 
 enum GameConfiguration {
-        static let gameWidth: CGFloat = 750
-        static let gameHeight: CGFloat = 1334
+    static let gameWidth: CGFloat = 750
+    static let gameHeight: CGFloat = 1334
 }
 
 class GameViewController: UIViewController {
