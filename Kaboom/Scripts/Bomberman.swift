@@ -96,8 +96,13 @@ class Bomberman: SKSpriteNode {
         bombsToDrop = (Int)(Double(bombsToDrop) * 1.5)
         bombsDropped = 0
     }
-    
+
     public func bombOnEnd() {
+
+        removeAllActions()
+        runMoveAction(node: self, desiredPosition: CGPoint(x: 0, y: position.y), movementSpeed: moveDuration)
+        roundFinished = false
+        run(SKAction.wait(forDuration: startRoundTimer), completion: startRound)
 
         bombManager.bombOnEnd()
         player.loseLive()
@@ -142,8 +147,6 @@ class BombManager: SKNode {
     public func bombOnEnd() {
 
         for number in 0..<bombs.count {
-            //bombs[number].physicsBody?.affectedByGravity = false
-            //bombs[number].physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             bombs[number].explode()
         }
     }
@@ -168,10 +171,14 @@ class Bomb: SKSpriteNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public func explode() {
-        
+
+        physicsBody?.affectedByGravity = false
+        physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+        physicsBody?.angularVelocity = 0.0
         physicsBody?.contactTestBitMask = CategoryBitMasks.playerBitMask
-        //removeFromParent()
+
+        removeFromParent()
     }
 }
