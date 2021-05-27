@@ -68,9 +68,11 @@ class Player: SKNode {
 
     public func stopBomb(live: WoodenPanel, bomb: Bomb) {
 
+        if bomb.exploded {return}
+
         live.playWaterSplash()
         bomb.explode()
-        score.addScore(scoreToAdd: 10)
+        score.addScore(scoreToAdd: bombValue * bomb.round)
     }
 }
 
@@ -87,10 +89,6 @@ class WoodenPanel: SKSpriteNode {
         super.init(texture: texture, color: .clear, size: CGSize(width: 98, height: 28))
         self.position = CGPoint(x: 0, y: 0 + numberOnPlayer * 45)
 
-        if numberOnPlayer > 0 {
-            return
-        }
-        
         physicsBody = SKPhysicsBody(rectangleOf: size)
         physicsBody?.affectedByGravity = false
         physicsBody?.isDynamic = false

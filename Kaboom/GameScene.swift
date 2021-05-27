@@ -74,10 +74,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         if nodeA.name == "BombEndCollider" || nodeB.name == "BombEndCollider" {
             bomberman.bombOnEnd()
-        } else if nodeA is Bomb {
-            player.stopBomb(live: (nodeB as? WoodenPanel)!, bomb: (nodeA as? Bomb)!)
-        } else if nodeB is Bomb {
-            player.stopBomb(live: (nodeA as? WoodenPanel)!, bomb: (nodeB as? Bomb)!)
+        } else {
+            if !collisionPlayerBomb(nodeA: nodeA, nodeB: nodeB) {
+                collisionPlayerBomb(nodeA: nodeB, nodeB: nodeA)
+            }
         }
+    }
+    
+    private func collisionPlayerBomb(nodeA: SKNode, nodeB: SKNode) -> Bool {
+
+        guard let liveNode = nodeA as? WoodenPanel else {return false}
+        guard let bombNode = nodeB as? Bomb else {return false}
+        
+        player.stopBomb(live: liveNode, bomb: bombNode)
+        return true
     }
 }

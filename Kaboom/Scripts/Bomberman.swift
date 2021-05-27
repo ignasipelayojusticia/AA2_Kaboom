@@ -16,6 +16,7 @@ class Bomberman: SKSpriteNode {
 
     private var moveDuration: Double = 2
     public var desiredPosition: CGPoint
+    public var round: Int = 1
     private let startRoundTimer: Double = 1.5
     private var roundFinished: Bool = false
 
@@ -29,7 +30,7 @@ class Bomberman: SKSpriteNode {
 
         self.player = player
         self.bombManager = bombManager
-        bomb = Bomb(inititalPosition: CGPoint(x: 0, y: bombYOffset), initializePhysics: false)
+        bomb = Bomb(inititalPosition: CGPoint(x: 0, y: bombYOffset), initializePhysics: false, round: round)
         bomb.isHidden = true
 
         desiredPosition = CGPoint(x: 0, y: GameConfiguration.gameHeight / 2  - 300)
@@ -78,7 +79,7 @@ class Bomberman: SKSpriteNode {
 
     private func dropBomb() {
 
-        bombManager.createBomb(initialPosition: CGPoint(x: position.x, y: position.y + CGFloat(bombYOffset)))
+        bombManager.createBomb(initialPosition: CGPoint(x: position.x, y: position.y + CGFloat(bombYOffset)), roundNumber: round)
         bombsDropped += 1
         if bombsDropped <= bombsToDrop {
             waitToDropBomb()
@@ -91,6 +92,7 @@ class Bomberman: SKSpriteNode {
 
     private func levelUp() {
 
+        round += 1
         moveDuration *= 0.75
         bombDropInterval *= 0.75
         bombsToDrop = (Int)(Double(bombsToDrop) * 1.5)
@@ -136,9 +138,9 @@ class BombManager: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public func createBomb(initialPosition: CGPoint) {
+    public func createBomb(initialPosition: CGPoint, roundNumber: Int) {
 
-        let newBomb = Bomb(inititalPosition: initialPosition, initializePhysics: true)
+        let newBomb = Bomb(inititalPosition: initialPosition, initializePhysics: true, round: roundNumber)
         newBomb.name = "Bomb"
         bombs.append(newBomb)
         addChild(newBomb)
@@ -154,7 +156,12 @@ class BombManager: SKNode {
 
 class Bomb: SKSpriteNode {
 
-    init(inititalPosition: CGPoint, initializePhysics: Bool) {
+    public var exploded: Bool = false
+    public var round: Int
+
+    init(inititalPosition: CGPoint, initializePhysics: Bool, round: Int) {
+
+        self.round = round
 
         super.init(texture: SKTexture(imageNamed: "bomb_3"), color: .clear, size: CGSize(width: 55, height: 65))
 
@@ -173,6 +180,10 @@ class Bomb: SKSpriteNode {
     }
 
     public func explode() {
+
+        if exploded {return}
+
+        exploded = true
 
         physicsBody?.affectedByGravity = false
         physicsBody?.velocity = CGVector(dx: 0, dy: 0)

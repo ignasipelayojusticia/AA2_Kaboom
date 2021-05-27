@@ -13,3 +13,5 @@ enum CategoryBitMasks {
     static let bombEndBitMask: UInt32 = UInt32(2)
     static let bombBitMask: UInt32 = UInt32(4)
 }
+
+let bombValue = 10
