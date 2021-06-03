@@ -21,7 +21,7 @@ class Player: SKNode {
 
     private var losingLive: Bool
 
-    init(score: Score) {
+    init(score: Score, isHardMode: Bool) {
 
         self.score = score
 
@@ -33,7 +33,7 @@ class Player: SKNode {
         super.init()
 
         for number in 0...(maximumLives - 1) {
-            lives.append(WoodenPanel(playerReference: self, numberOnPlayer: number, image: "player"))
+            lives.append(WoodenPanel(playerReference: self, numberOnPlayer: number, image: "woodenPlank"))
             addChild(lives[number])
         }
 
@@ -49,6 +49,11 @@ class Player: SKNode {
         movingTouch = touch
         desiredPosition = desiredPos
         runMoveAction(node: self, desiredPosition: desiredPosition, movementSpeed: moveDuration)
+    }
+
+    public func removeTouch() {
+
+        movingTouch = nil
     }
 
     public func moveTouch(desiredPos: CGPoint) {
@@ -79,6 +84,7 @@ class Player: SKNode {
 class WoodenPanel: SKSpriteNode {
 
     private var player: Player
+    private let splashAnimation: [SKTexture]
 
     init(playerReference: Player, numberOnPlayer: Int, image: String) {
 
@@ -86,10 +92,14 @@ class WoodenPanel: SKSpriteNode {
 
         let texture = SKTexture(imageNamed: image)
 
-        super.init(texture: texture, color: .clear, size: CGSize(width: 98, height: 28))
+        splashAnimation = [SKTexture(imageNamed: "splash0"), SKTexture(imageNamed: "splash1"),
+                           SKTexture(imageNamed: "splash2"), SKTexture(imageNamed: image)]
+
+        super.init(texture: texture, color: .clear, size: CGSize(width: 98, height: 53))
         self.position = CGPoint(x: 0, y: 0 + numberOnPlayer * 45)
 
-        physicsBody = SKPhysicsBody(rectangleOf: size)
+        physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height / 2),
+                                    center: CGPoint(x: 0, y: -size.height / 5))
         physicsBody?.affectedByGravity = false
         physicsBody?.isDynamic = false
         physicsBody?.categoryBitMask = CategoryBitMasks.playerBitMask
@@ -100,7 +110,7 @@ class WoodenPanel: SKSpriteNode {
     public func playWaterSplash() {
 
         removeAllActions()
-        // PLAY WATER SPLASH ANIMATION
+        run(SKAction.animate(with: splashAnimation, timePerFrame: 0.1))
     }
 
     required init?(coder aDecoder: NSCoder) {

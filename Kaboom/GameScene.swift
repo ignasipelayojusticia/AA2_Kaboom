@@ -17,7 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     override func didMove(to view: SKView) {
 
-        player = Player(score: score)
+        player = Player(score: score, isHardMode: false)
         bomberman = Bomberman(player: player, bombManager: bombManager)
 
         addChild(player)
@@ -57,6 +57,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 
+        for touch in touches where touch == player.movingTouch {
+            player.removeTouch()
+        }
     }
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -80,12 +83,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
+
     private func collisionPlayerBomb(nodeA: SKNode, nodeB: SKNode) -> Bool {
 
         guard let liveNode = nodeA as? WoodenPanel else {return false}
         guard let bombNode = nodeB as? Bomb else {return false}
-        
+
         player.stopBomb(live: liveNode, bomb: bombNode)
         return true
     }

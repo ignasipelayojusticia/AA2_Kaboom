@@ -79,7 +79,8 @@ class Bomberman: SKSpriteNode {
 
     private func dropBomb() {
 
-        bombManager.createBomb(initialPosition: CGPoint(x: position.x, y: position.y + CGFloat(bombYOffset)), roundNumber: round)
+        bombManager.createBomb(initialPosition: CGPoint(x: position.x, y: position.y + CGFloat(bombYOffset)),
+                               roundNumber: round)
         bombsDropped += 1
         if bombsDropped <= bombsToDrop {
             waitToDropBomb()
@@ -163,7 +164,7 @@ class Bomb: SKSpriteNode {
 
         self.round = round
 
-        super.init(texture: SKTexture(imageNamed: "bomb_3"), color: .clear, size: CGSize(width: 55, height: 65))
+        super.init(texture: SKTexture(imageNamed: "bomb0"), color: .clear, size: CGSize(width: 35, height: 56))
 
         position = inititalPosition
 
@@ -172,6 +173,9 @@ class Bomb: SKSpriteNode {
             physicsBody?.categoryBitMask = CategoryBitMasks.bombBitMask
             physicsBody?.collisionBitMask = CategoryBitMasks.playerBitMask | CategoryBitMasks.bombEndBitMask
             physicsBody?.contactTestBitMask = physicsBody!.collisionBitMask
+
+            let bombAnimation = [SKTexture(imageNamed: "bomb2"), SKTexture(imageNamed: "bomb3")]
+            run(SKAction.repeatForever(SKAction.animate(with: bombAnimation, timePerFrame: 0.3)))
         }
     }
 
