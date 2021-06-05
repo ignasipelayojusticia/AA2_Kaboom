@@ -103,11 +103,10 @@ class Bomberman: SKSpriteNode {
     public func bombOnEnd() {
 
         removeAllActions()
-        runMoveAction(node: self, desiredPosition: CGPoint(x: 0, y: position.y), movementSpeed: moveDuration)
         roundFinished = false
         run(SKAction.wait(forDuration: startRoundTimer), completion: startRound)
 
-        bombManager.bombOnEnd()
+        bombManager.freezeBombs()
         player.loseLive()
     }
 }
@@ -147,11 +146,25 @@ class BombManager: SKNode {
         addChild(newBomb)
     }
 
-    public func bombOnEnd() {
+    public func freezeBombs() {
 
-        for number in 0..<bombs.count {
-            bombs[number].explode()
+        for bomb in bombs {
+            bomb.freezeBomb()
         }
+        bombOnEnd()
+    }
+
+    private func bombOnEnd() {
+
+        guard let firstBomb = bombs.first else {return}
+
+        firstBomb.explode()
+        run(SKAction.wait(forDuration: firstBomb.explosion.getAnimationDuration()), completion: bombOnEnd)
+        bombs.removeFirst()
+    }
+
+    private func nextBombOnEnd() {
+        // hello
     }
 }
 
@@ -159,10 +172,11 @@ class Bomb: SKSpriteNode {
 
     public var exploded: Bool = false
     public var round: Int
+    public var explosion: BombExplosion
 
     init(inititalPosition: CGPoint, initializePhysics: Bool, round: Int) {
-
         self.round = round
+        self.explosion = BombExplosion()
 
         super.init(texture: SKTexture(imageNamed: "bomb0"), color: .clear, size: CGSize(width: 35, height: 56))
 
@@ -177,6 +191,8 @@ class Bomb: SKSpriteNode {
             let bombAnimation = [SKTexture(imageNamed: "bomb2"), SKTexture(imageNamed: "bomb3")]
             run(SKAction.repeatForever(SKAction.animate(with: bombAnimation, timePerFrame: 0.3)))
         }
+        
+        addChild(explosion)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -184,16 +200,53 @@ class Bomb: SKSpriteNode {
     }
 
     public func explode() {
-
         if exploded {return}
 
         exploded = true
 
-        physicsBody?.affectedByGravity = false
-        physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-        physicsBody?.angularVelocity = 0.0
-        physicsBody?.contactTestBitMask = CategoryBitMasks.playerBitMask
+        removeAllActions()
+        physicsBody = nil
+        texture = nil
+
+        run(SKAction.wait(forDuration: explosion.getAnimationDuration()), completion: removeFromParent)
+        explosion.playExplosion()
+    }
+
+    public func freezeBomb() {
+        removeAllActions()
+        physicsBody = nil
+    }
+
+    public func stopBomb() {
+        if exploded {return}
+        exploded = true
 
         removeFromParent()
+    }
+}
+
+class BombExplosion: SKSpriteNode {
+
+    private let frameDuration: Double = 0.1
+    private let explodeAnimation: [SKTexture] =
+        [SKTexture(imageNamed: "bombExplosion0"), SKTexture(imageNamed: "bombExplosion1"),
+        SKTexture(imageNamed: "bombExplosion2")]
+
+    init() {
+        super.init(texture: SKTexture(imageNamed: "bombExplosion0"), color: .clear, size: CGSize(width: 56, height: 53))
+        isHidden = true
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    public func getAnimationDuration() -> Double {
+        return Double(explodeAnimation.count) * frameDuration
+    }
+
+    public func playExplosion() {
+        isHidden = false
+        run(SKAction.animate(with: explodeAnimation, timePerFrame: frameDuration))
     }
 }

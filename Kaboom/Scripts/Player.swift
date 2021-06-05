@@ -76,8 +76,8 @@ class Player: SKNode {
         if bomb.exploded {return}
 
         live.playWaterSplash()
-        bomb.explode()
         score.addScore(scoreToAdd: bombValue * bomb.round)
+        bomb.stopBomb()
     }
 }
 
