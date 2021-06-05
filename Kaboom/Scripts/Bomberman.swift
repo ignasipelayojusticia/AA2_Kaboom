@@ -104,7 +104,9 @@ class Bomberman: SKSpriteNode {
 
         removeAllActions()
         roundFinished = false
-        run(SKAction.wait(forDuration: startRoundTimer), completion: startRound)
+        guard let explosionAnimationDuration = bombManager.bombs.first?.explosion.getAnimationDuration() else {return}
+        let duration = explosionAnimationDuration * Double(bombManager.bombs.count + 2)
+        run(SKAction.wait(forDuration: duration), completion: startRound)
 
         bombManager.freezeBombs()
         player.loseLive()
@@ -163,8 +165,22 @@ class BombManager: SKNode {
         bombs.removeFirst()
     }
 
-    private func nextBombOnEnd() {
-        // hello
+    public func stopBomb(bomb: Bomb) {
+
+        var index = -1
+        for number in 0...(bombs.count - 1) {
+            if bombs[number] == bomb {
+                index = number
+                break
+            }
+        }
+
+        if index == -1 {
+            return
+        }
+
+        bomb.stopBomb()
+        bombs.remove(at: index)
     }
 }
 
@@ -221,6 +237,7 @@ class Bomb: SKSpriteNode {
         if exploded {return}
         exploded = true
 
+        
         removeFromParent()
     }
 }

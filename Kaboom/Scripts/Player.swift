@@ -19,7 +19,7 @@ class Player: SKNode {
     public var movingTouch: UITouch?
     public var desiredPosition: CGPoint
 
-    private var losingLive: Bool
+    public var losingLive: Bool
 
     init(score: Score, isHardMode: Bool) {
 
@@ -64,20 +64,24 @@ class Player: SKNode {
 
     public func loseLive() {
 
-        if losingLive || lives.count == 0 {
+        if lives.count == 0 {
             return
         }
+        
         losingLive = true
-        lives.last?.removeFromParent()
+        let firstLive = lives.first
+        lives.removeFirst()
+        firstLive?.removeFromParent()
+        
+        if lives.count <= 0 {
+            print("GAME OVER")
+        }
     }
 
-    public func stopBomb(live: WoodenPanel, bomb: Bomb) {
-
-        if bomb.exploded {return}
+    public func stopBomb(live: WoodenPanel, round: Int) {
 
         live.playWaterSplash()
-        score.addScore(scoreToAdd: bombValue * bomb.round)
-        bomb.stopBomb()
+        score.addScore(scoreToAdd: bombValue * round)
     }
 }
 

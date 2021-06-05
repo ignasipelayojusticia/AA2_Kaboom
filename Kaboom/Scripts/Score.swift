@@ -29,7 +29,13 @@ class Score: SKLabelNode {
     
     public func addScore(scoreToAdd: Int) {
 
+        let thousands = Int(currentScore / 1000)
+        
         currentScore += scoreToAdd
         text = scoreText + String(currentScore)
+        
+        if Int(currentScore / 1000) > thousands {
+            print("1UP")
+        }
     }
 }

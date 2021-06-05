@@ -89,7 +89,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let liveNode = nodeA as? WoodenPanel else {return false}
         guard let bombNode = nodeB as? Bomb else {return false}
 
-        player.stopBomb(live: liveNode, bomb: bombNode)
+        if bombNode.exploded {
+            return true
+        }
+
+        player.stopBomb(live: liveNode, round: bombNode.round)
+        bombManager.stopBomb(bomb: bombNode)
         return true
     }
 }
