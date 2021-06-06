@@ -34,6 +34,10 @@ class Score: SKLabelNode {
         currentScore += scoreToAdd
         text = scoreText + String(currentScore)
 
+        let scoreMessage = ScoreMessage(position: CGPoint(x: GameConfiguration.gameWidth / 3.5, y: 40),
+                                        points: scoreToAdd, color: SKColor.green)
+        addChild(scoreMessage)
+
         if Int(currentScore / 1000) > currentThousand {
             currentThousand = Int(currentScore / 1000)
             return true
@@ -43,10 +47,37 @@ class Score: SKLabelNode {
     }
 
     public func substractScore(scoreToSubstract: Int) {
-        currentScore -= scoreToSubstract
-        if currentScore < 0 {
-            currentScore = 0
+
+        var actualScoreToSubstract = scoreToSubstract
+        if currentScore < actualScoreToSubstract {
+            actualScoreToSubstract = currentScore
         }
+        currentScore -= actualScoreToSubstract
+
         text = scoreText + String(currentScore)
+        let scoreMessage = ScoreMessage(position: CGPoint(x: GameConfiguration.gameWidth / 3.5, y: 40),
+                                        points: -actualScoreToSubstract, color: SKColor.red)
+        addChild(scoreMessage)
+    }
+}
+
+class ScoreMessage: SKLabelNode {
+
+    init(position: CGPoint, points: Int, color: SKColor) {
+
+        super.init()
+
+        self.position = position
+        fontSize *= 1.3
+        fontColor = color
+        text = points > 0 ? "+" + String(points) : String(points)
+
+        zRotation = 0.4
+        run(SKAction.fadeOut(withDuration: 1))
+        run(SKAction.move(by: CGVector(dx: 1, dy: -0.3), duration: 1), completion: removeFromParent)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
