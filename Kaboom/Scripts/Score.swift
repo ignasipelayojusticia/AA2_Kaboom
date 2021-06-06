@@ -12,7 +12,7 @@ class Score: SKLabelNode {
 
     private let scoreText: String = "SCORE: "
     private var currentScore: Int = 0
-    private var currentThousand: Int = 0
+    private var currentHundred: Int = 0
 
     override init() {
 
@@ -38,8 +38,8 @@ class Score: SKLabelNode {
                                         points: scoreToAdd, color: SKColor.green)
         addChild(scoreMessage)
 
-        if Int(currentScore / 1000) > currentThousand {
-            currentThousand = Int(currentScore / 1000)
+        if Int(currentScore / 100) > currentHundred {
+            currentHundred = Int(currentScore / 100)
             return true
         }
 

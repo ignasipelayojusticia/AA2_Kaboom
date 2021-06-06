@@ -83,8 +83,7 @@ class Player: SKNode {
         live.playWaterSplash()
 
         if isFriendlyBomb {
-            score.substractScore(scoreToSubstract: 500)
-            print("RED BOMB")
+            score.substractScore(scoreToSubstract: redBombValue)
             return
         }
 
@@ -125,7 +124,8 @@ class WoodenPanel: SKSpriteNode {
         super.init(texture: texture, color: .clear, size: CGSize(width: 147, height: 53))
         self.position = CGPoint(x: 0, y: 0 + numberOnPlayer * 45)
 
-        physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 49 * currentWoodenPlankLevel, height: Int(size.height) / 2),
+        physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 49 * currentWoodenPlankLevel,
+                                                        height: Int(size.height) / 2),
                                     center: CGPoint(x: 0, y: -size.height / 5))
         physicsBody?.affectedByGravity = false
         physicsBody?.isDynamic = false
