@@ -16,3 +16,4 @@ enum CategoryBitMasks {
 }
 
 let bombValue = 10
+var currentWoodenPlankLevel = 2

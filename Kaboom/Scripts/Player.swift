@@ -33,7 +33,7 @@ class Player: SKNode {
         super.init()
 
         for number in 0...(maximumLives - 1) {
-            lives.append(WoodenPanel(playerReference: self, numberOnPlayer: number, image: "woodenPlank"))
+            lives.append(WoodenPanel(playerReference: self, numberOnPlayer: number))
             addChild(lives[number])
         }
 
@@ -100,7 +100,7 @@ class Player: SKNode {
         }
 
         let number = maximumLives - 1 - lives.count
-        lives.insert(WoodenPanel(playerReference: self, numberOnPlayer: number, image: "woodenPlank"), at: 0)
+        lives.insert(WoodenPanel(playerReference: self, numberOnPlayer: number), at: 0)
         addChild(lives[0])
     }
 }
@@ -110,19 +110,22 @@ class WoodenPanel: SKSpriteNode {
     private var player: Player
     private let splashAnimation: [SKTexture]
 
-    init(playerReference: Player, numberOnPlayer: Int, image: String) {
+    init(playerReference: Player, numberOnPlayer: Int) {
 
         player = playerReference
 
-        let texture = SKTexture(imageNamed: image)
+        let currentLevel = "level" + String(currentWoodenPlankLevel)
+        let texture = SKTexture(imageNamed: "plank_0_" + currentLevel)
 
-        splashAnimation = [SKTexture(imageNamed: "splash0"), SKTexture(imageNamed: "splash1"),
-                           SKTexture(imageNamed: "splash2"), SKTexture(imageNamed: image)]
+        splashAnimation = [SKTexture(imageNamed: "plank_1_" + currentLevel),
+                           SKTexture(imageNamed: "plank_2_" + currentLevel),
+                           SKTexture(imageNamed: "plank_3_" + currentLevel),
+                           SKTexture(imageNamed: "plank_0_" + currentLevel)]
 
-        super.init(texture: texture, color: .clear, size: CGSize(width: 98, height: 53))
+        super.init(texture: texture, color: .clear, size: CGSize(width: 147, height: 53))
         self.position = CGPoint(x: 0, y: 0 + numberOnPlayer * 45)
 
-        physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height / 2),
+        physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 49 * currentWoodenPlankLevel, height: Int(size.height) / 2),
                                     center: CGPoint(x: 0, y: -size.height / 5))
         physicsBody?.affectedByGravity = false
         physicsBody?.isDynamic = false

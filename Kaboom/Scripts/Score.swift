@@ -44,6 +44,9 @@ class Score: SKLabelNode {
 
     public func substractScore(scoreToSubstract: Int) {
         currentScore -= scoreToSubstract
+        if currentScore < 0 {
+            currentScore = 0
+        }
         text = scoreText + String(currentScore)
     }
 }
