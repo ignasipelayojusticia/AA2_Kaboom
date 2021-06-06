@@ -63,6 +63,8 @@ class Score: SKLabelNode {
 
 class ScoreMessage: SKLabelNode {
 
+    let animationDuration: Double = 0.75
+
     init(position: CGPoint, points: Int, color: SKColor) {
 
         super.init()
@@ -72,9 +74,8 @@ class ScoreMessage: SKLabelNode {
         fontColor = color
         text = points > 0 ? "+" + String(points) : String(points)
 
-        zRotation = 0.4
-        run(SKAction.fadeOut(withDuration: 1))
-        run(SKAction.move(by: CGVector(dx: 1, dy: -0.3), duration: 1), completion: removeFromParent)
+        run(SKAction.fadeOut(withDuration: animationDuration))
+        run(SKAction.move(by: CGVector(dx: 50, dy: 25), duration: animationDuration), completion: removeFromParent)
     }
 
     required init?(coder aDecoder: NSCoder) {
