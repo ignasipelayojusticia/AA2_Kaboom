@@ -67,12 +67,12 @@ class Player: SKNode {
         if lives.count == 0 {
             return
         }
-        
+
         losingLive = true
         let firstLive = lives.first
         lives.removeFirst()
         firstLive?.removeFromParent()
-        
+
         if lives.count <= 0 {
             print("GAME OVER")
         }
@@ -81,7 +81,20 @@ class Player: SKNode {
     public func stopBomb(live: WoodenPanel, round: Int) {
 
         live.playWaterSplash()
-        score.addScore(scoreToAdd: bombValue * round)
+        if score.addScore(scoreToAdd: bombValue * round) {
+            oneUp()
+        }
+    }
+
+    private func oneUp() {
+        if lives.count == maximumLives {
+            print("MAX LIVES")
+            return
+        }
+
+        let number = maximumLives - 1 - lives.count
+        lives.insert(WoodenPanel(playerReference: self, numberOnPlayer: number, image: "woodenPlank"), at: 0)
+        addChild(lives[0])
     }
 }
 

@@ -20,22 +20,25 @@ class Score: SKLabelNode {
         position = CGPoint(x: 0, y: GameConfiguration.gameHeight / 2 - 100)
         horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         fontSize *= 2
-        addScore(scoreToAdd: 0)
+
+        text = scoreText + String(currentScore)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func addScore(scoreToAdd: Int) {
+    public func addScore(scoreToAdd: Int) -> Bool {
 
         let thousands = Int(currentScore / 1000)
-        
+
         currentScore += scoreToAdd
         text = scoreText + String(currentScore)
-        
+
         if Int(currentScore / 1000) > thousands {
-            print("1UP")
+            return true
         }
+
+        return false
     }
 }

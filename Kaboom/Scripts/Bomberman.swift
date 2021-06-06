@@ -123,7 +123,7 @@ class BombManager: SKNode {
         bombEndCollider = SKSpriteNode(color: UIColor.green,
                                        size: CGSize(width: GameConfiguration.gameWidth, height: 30))
         bombEndCollider.name = "BombEndCollider"
-        bombEndCollider.position = CGPoint(x: 0, y: -GameConfiguration.gameHeight / 2 + 50)
+        bombEndCollider.position = CGPoint(x: 0, y: -GameConfiguration.gameHeight / 2 + 30)
         bombEndCollider.physicsBody = SKPhysicsBody(rectangleOf: bombEndCollider.size)
         bombEndCollider.physicsBody?.affectedByGravity = false
         bombEndCollider.physicsBody?.isDynamic = false
@@ -168,11 +168,8 @@ class BombManager: SKNode {
     public func stopBomb(bomb: Bomb) {
 
         var index = -1
-        for number in 0...(bombs.count - 1) {
-            if bombs[number] == bomb {
-                index = number
-                break
-            }
+        for number in 0...(bombs.count - 1) where bombs[number] == bomb {
+            index = number
         }
 
         if index == -1 {
@@ -207,7 +204,9 @@ class Bomb: SKSpriteNode {
             let bombAnimation = [SKTexture(imageNamed: "bomb2"), SKTexture(imageNamed: "bomb3")]
             run(SKAction.repeatForever(SKAction.animate(with: bombAnimation, timePerFrame: 0.3)))
         }
-        
+
+        let randomNumber = Int.random(in: 0...100)
+        xScale *= randomNumber < 50 ? 1 : -1
         addChild(explosion)
     }
 
