@@ -75,8 +75,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let nodeA = contact.bodyA.node else {return}
         guard let nodeB = contact.bodyB.node else {return}
 
-        if nodeA.name == "BombEndCollider" || nodeB.name == "BombEndCollider" {
-            bomberman.bombOnEnd()
+        if nodeA.name == "BombEndCollider" {
+            guard let bombNode = nodeB as? Bomb else {return}
+            bomberman.bombOnEnd(bomb: bombNode)
+        } else if nodeB.name == "BombEndCollider" {
+            guard let bombNode = nodeA as? Bomb else {return}
+            bomberman.bombOnEnd(bomb: bombNode)
         } else {
             if !collisionPlayerBomb(nodeA: nodeA, nodeB: nodeB) {
                 collisionPlayerBomb(nodeA: nodeB, nodeB: nodeA)
@@ -93,7 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return true
         }
 
-        player.stopBomb(live: liveNode, round: bombNode.round)
+        player.stopBomb(live: liveNode, round: bombNode.round, isFriendlyBomb: bombNode.isRedBomb)
         bombManager.stopBomb(bomb: bombNode)
         return true
     }

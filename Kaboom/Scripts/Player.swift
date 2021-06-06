@@ -78,9 +78,16 @@ class Player: SKNode {
         }
     }
 
-    public func stopBomb(live: WoodenPanel, round: Int) {
+    public func stopBomb(live: WoodenPanel, round: Int, isFriendlyBomb: Bool) {
 
         live.playWaterSplash()
+
+        if isFriendlyBomb {
+            score.substractScore(scoreToSubstract: 500)
+            print("RED BOMB")
+            return
+        }
+
         if score.addScore(scoreToAdd: bombValue * round) {
             oneUp()
         }

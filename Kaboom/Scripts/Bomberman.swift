@@ -100,8 +100,13 @@ class Bomberman: SKSpriteNode {
         bombsDropped = 0
     }
 
-    public func bombOnEnd() {
+    public func bombOnEnd(bomb: Bomb) {
 
+        if bomb.isRedBomb {
+            bombManager.removeFriendlyBomb(bomb: bomb)
+            return
+        }
+        
         removeAllActions()
         roundFinished = false
         guard let explosionAnimationDuration = bombManager.bombs.first?.explosion.getAnimationDuration() else {return}
@@ -179,6 +184,20 @@ class BombManager: SKNode {
         bomb.stopBomb()
         bombs.remove(at: index)
     }
+
+    public func removeFriendlyBomb(bomb: Bomb) {
+        var index = -1
+        for number in 0...(bombs.count - 1) where bombs[number] == bomb {
+            index = number
+        }
+
+        if index == -1 {
+            return
+        }
+
+        bombs.remove(at: index)
+        bomb.explode()
+    }
 }
 
 class Bomb: SKSpriteNode {
@@ -186,12 +205,17 @@ class Bomb: SKSpriteNode {
     public var exploded: Bool = false
     public var round: Int
     public var explosion: BombExplosion
+    public var isRedBomb: Bool
 
     init(inititalPosition: CGPoint, initializePhysics: Bool, round: Int) {
         self.round = round
         self.explosion = BombExplosion()
 
-        super.init(texture: SKTexture(imageNamed: "bomb0"), color: .clear, size: CGSize(width: 35, height: 56))
+        let randomNumber = Int.random(in: 0...100)
+        isRedBomb = randomNumber < 5
+
+        super.init(texture: SKTexture(imageNamed: isRedBomb ? "friendlybomb0" : "bomb0"),
+                   color: .clear, size: CGSize(width: 35, height: 56))
 
         position = inititalPosition
 
@@ -201,11 +225,11 @@ class Bomb: SKSpriteNode {
             physicsBody?.collisionBitMask = CategoryBitMasks.playerBitMask | CategoryBitMasks.bombEndBitMask
             physicsBody?.contactTestBitMask = physicsBody!.collisionBitMask
 
-            let bombAnimation = [SKTexture(imageNamed: "bomb2"), SKTexture(imageNamed: "bomb3")]
+            let bombAnimation = [SKTexture(imageNamed: isRedBomb ? "friendlybomb2" : "bomb2"),
+                                 SKTexture(imageNamed: isRedBomb ? "friendlybomb3" : "bomb3")]
             run(SKAction.repeatForever(SKAction.animate(with: bombAnimation, timePerFrame: 0.3)))
         }
 
-        let randomNumber = Int.random(in: 0...100)
         xScale *= randomNumber < 50 ? 1 : -1
         addChild(explosion)
     }
