@@ -15,6 +15,8 @@
 		EF86E9FA266D33FB0021F14E /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86E9F9266D33FB0021F14E /* Scene.swift */; };
 		EF86E9FE266D398C0021F14E /* SplashScreenScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EF86E9FD266D398C0021F14E /* SplashScreenScene.sks */; };
 		EF86EA01266E8EA80021F14E /* SlapAndCrumbly.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF86EA00266E8E9D0021F14E /* SlapAndCrumbly.ttf */; };
+		EF86EA03266EA8330021F14E /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EF86EA02266EA8330021F14E /* MainMenuScene.sks */; };
+		EF86EA05266EA84D0021F14E /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86EA04266EA84D0021F14E /* MainMenuScene.swift */; };
 		EFA741FF265EFA94001901BC /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA741FE265EFA94001901BC /* Score.swift */; };
 		EFE36DFB2628B8CA00D49712 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE36DFA2628B8CA00D49712 /* AppDelegate.swift */; };
 		EFE36DFD2628B8CA00D49712 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EFE36DFC2628B8CA00D49712 /* GameScene.sks */; };
@@ -34,6 +36,8 @@
 		EF86E9F9266D33FB0021F14E /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		EF86E9FD266D398C0021F14E /* SplashScreenScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SplashScreenScene.sks; sourceTree = "<group>"; };
 		EF86EA00266E8E9D0021F14E /* SlapAndCrumbly.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = SlapAndCrumbly.ttf; path = ../../../slap_and_crumbly/SlapAndCrumbly.ttf; sourceTree = "<group>"; };
+		EF86EA02266EA8330021F14E /* MainMenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenuScene.sks; sourceTree = "<group>"; };
+		EF86EA04266EA84D0021F14E /* MainMenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
 		EFA741FE265EFA94001901BC /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		EFE36DF72628B8CA00D49712 /* Kaboom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kaboom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE36DFA2628B8CA00D49712 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -72,11 +76,13 @@
 		EF86E9F6266D17A60021F14E /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				EFE36E002628B8CA00D49712 /* GameScene.swift */,
-				EFE36DFC2628B8CA00D49712 /* GameScene.sks */,
+				EF86E9F9266D33FB0021F14E /* Scene.swift */,
 				EF86E9F7266D17C20021F14E /* SplashScreenScene.swift */,
 				EF86E9FD266D398C0021F14E /* SplashScreenScene.sks */,
-				EF86E9F9266D33FB0021F14E /* Scene.swift */,
+				EF86EA04266EA84D0021F14E /* MainMenuScene.swift */,
+				EF86EA02266EA8330021F14E /* MainMenuScene.sks */,
+				EFE36E002628B8CA00D49712 /* GameScene.swift */,
+				EFE36DFC2628B8CA00D49712 /* GameScene.sks */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -180,6 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFE36E062628B8CA00D49712 /* Main.storyboard in Resources */,
+				EF86EA03266EA8330021F14E /* MainMenuScene.sks in Resources */,
 				EFE36DFD2628B8CA00D49712 /* GameScene.sks in Resources */,
 				EF86E9FE266D398C0021F14E /* SplashScreenScene.sks in Resources */,
 				EF86EA01266E8EA80021F14E /* SlapAndCrumbly.ttf in Resources */,
@@ -215,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF86EA05266EA84D0021F14E /* MainMenuScene.swift in Sources */,
 				EF47858F26543CC700A6051E /* MovingSprite.swift in Sources */,
 				EF478589264AFF0400A6051E /* Player.swift in Sources */,
 				EF86E9FA266D33FB0021F14E /* Scene.swift in Sources */,

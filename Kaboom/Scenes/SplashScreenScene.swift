@@ -17,16 +17,16 @@ class SplashScreenScene: Scene {
         let kaboomTitle = SKLabelNode()
         kaboomTitle.fontName = "SlapAndCrumbly"
         kaboomTitle.fontSize *= 3.5
-        kaboomTitle.fontColor = SKColor.red
+        kaboomTitle.fontColor = SKColor.black
         kaboomTitle.position = CGPoint(x: 0, y: GameConfiguration.gameHeight / 3)
         kaboomTitle.text = "KABOOM!"
         addChild(kaboomTitle)
 
         let madeBySubtitle = SKLabelNode()
         madeBySubtitle.fontName = "SlapAndCrumbly"
-        madeBySubtitle.fontColor = SKColor.red
+        madeBySubtitle.fontColor = SKColor.black
         madeBySubtitle.position = CGPoint(x: kaboomTitle.position.x, y: kaboomTitle.position.y - 80)
-        madeBySubtitle.text = "MADE BY IGNASI PELAYO"
+        madeBySubtitle.text = "BY IGNASI PELAYO"
         addChild(madeBySubtitle)
 
         let bomb = SKSpriteNode(imageNamed: "bomb_splashscreen")
@@ -45,7 +45,6 @@ class SplashScreenScene: Scene {
     }
 
     private func loadMainMenu() {
-        gameViewController.loadScene(sceneName: "Game")
+        gameViewController.loadScene(sceneName: "MainMenu")
     }
-    
 }

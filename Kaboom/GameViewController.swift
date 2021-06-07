@@ -63,12 +63,13 @@ class GameViewController: UIViewController {
         switch sceneName {
         case "SplashScreen":
             if let skScene = SKScene(fileNamed: "SplashScreenScene") {
-                print("SplashScreen Loaded")
                 setSceneProperties(view: view, skScene: skScene)
             }
 
         case "MainMenu":
-            break
+            if let skScene = SKScene(fileNamed: "MainMenuScene") {
+                setSceneProperties(view: view, skScene: skScene)
+            }
 
         case "Game":
             if let skScene = SKScene(fileNamed: "GameScene") {
