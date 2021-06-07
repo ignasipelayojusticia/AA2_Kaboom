@@ -17,6 +17,8 @@ class GameScene: Scene, SKPhysicsContactDelegate {
 
     override func didMove(to view: SKView) {
 
+        backgroundColor = SKColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1)
+
         player = Player(score: score, isHardMode: false)
         bomberman = Bomberman(player: player, bombManager: bombManager)
 

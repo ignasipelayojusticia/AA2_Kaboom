@@ -137,7 +137,7 @@ class BombManager: SKNode {
 
     override init() {
 
-        bombEndCollider = SKSpriteNode(color: UIColor.green,
+        bombEndCollider = SKSpriteNode(color: UIColor.black,
                                        size: CGSize(width: GameConfiguration.gameWidth, height: 30))
         bombEndCollider.name = "BombEndCollider"
         bombEndCollider.position = CGPoint(x: 0, y: -GameConfiguration.gameHeight / 2 + 30)
@@ -230,7 +230,7 @@ class Bomb: SKSpriteNode {
         self.explosion = BombExplosion()
 
         let randomNumber = Int.random(in: 0...100)
-        isRedBomb = randomNumber < 5 && initializePhysics
+        isRedBomb = randomNumber < difficulty.values().percentageOfRedBombs && initializePhysics
 
         super.init(texture: SKTexture(imageNamed: isRedBomb ? "friendlybomb0" : "bomb0"),
                    color: .clear, size: CGSize(width: 35, height: 56))

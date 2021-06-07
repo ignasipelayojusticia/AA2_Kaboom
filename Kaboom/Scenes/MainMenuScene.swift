@@ -12,7 +12,7 @@ class MainMenuScene: Scene {
 
     override func didMove(to view: SKView) {
 
-        backgroundColor = SKColor(red: 0.2, green: 0.4, blue: 0.22, alpha: 1)
+        backgroundColor = SKColor(red: 0.16, green: 0.39, blue: 0.47, alpha: 1)
 
         let kaboomTitle = SKLabelNode()
         kaboomTitle.fontName = "SlapAndCrumbly"

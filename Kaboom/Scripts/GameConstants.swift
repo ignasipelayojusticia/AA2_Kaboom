@@ -26,10 +26,12 @@ let redBombValue = 50
 struct DifficultyValues {
     var index: Int
     var multiplier: Int
+    var percentageOfRedBombs: Int
 
-    init(indexVariable: Int, multiplierVariable: Int) {
+    init(indexVariable: Int, multiplierVariable: Int, percentageVariable: Int) {
         self.index = indexVariable
         self.multiplier = multiplierVariable
+        self.percentageOfRedBombs = percentageVariable
     }
 }
 
@@ -41,11 +43,11 @@ enum Difficulty: CaseIterable {
     func values() -> DifficultyValues {
         switch self {
         case Difficulty.easy:
-            return DifficultyValues(indexVariable: 1, multiplierVariable: 1)
+            return DifficultyValues(indexVariable: 1, multiplierVariable: 1, percentageVariable: 5)
         case Difficulty.medium:
-            return DifficultyValues(indexVariable: 2, multiplierVariable: 2)
+            return DifficultyValues(indexVariable: 2, multiplierVariable: 2, percentageVariable: 10)
         case Difficulty.hard:
-            return DifficultyValues(indexVariable: 3, multiplierVariable: 4)
+            return DifficultyValues(indexVariable: 3, multiplierVariable: 4, percentageVariable: 20)
         }
     }
 }
