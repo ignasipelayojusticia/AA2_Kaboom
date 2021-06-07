@@ -13,7 +13,7 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadScene(sceneName: "MainMenu")
+        loadScene(sceneName: "SplashScreen")
 
         guard let view = self.view as? SKView else { return }
         view.ignoresSiblingOrder = true
@@ -40,10 +40,10 @@ class GameViewController: UIViewController {
     }
 
     public func setSceneProperties(view: SKView, skScene: SKScene) {
-        
+
         guard let scene = skScene as? Scene else {return}
         scene.gameViewController = self
-        
+
         var factor = view.frame.size.height / GameConfiguration.gameHeight
         if view.frame.size.width / factor < GameConfiguration.gameWidth {
             factor = view.frame.size.width / GameConfiguration.gameWidth
@@ -62,17 +62,18 @@ class GameViewController: UIViewController {
 
         switch sceneName {
         case "SplashScreen":
-            break
+            if let skScene = SKScene(fileNamed: "SplashScreenScene") {
+                print("SplashScreen Loaded")
+                setSceneProperties(view: view, skScene: skScene)
+            }
 
         case "MainMenu":
-            if let skScene = SKScene(fileNamed: "MainMenuScene") {
-                setSceneProperties(view: view, skScene: skScene)
-
-            }
             break
 
         case "Game":
-            break
+            if let skScene = SKScene(fileNamed: "GameScene") {
+                setSceneProperties(view: view, skScene: skScene)
+            }
 
         default:
             break

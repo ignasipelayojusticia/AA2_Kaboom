@@ -10,7 +10,7 @@ import SpriteKit
 
 class Score: SKLabelNode {
 
-    private let scoreText: String = "SCORE: "
+    private let scoreText: String = ""
     public var currentScore: Int = 0
     private var currentHundred: Int = 0
 
@@ -18,9 +18,11 @@ class Score: SKLabelNode {
 
         super.init()
 
+        fontName = "SlapAndCrumbly"
         position = CGPoint(x: 0, y: GameConfiguration.gameHeight / 2 - 100)
         horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
-        fontSize *= 2
+        fontSize *= 3
+        fontColor = SKColor.white
 
         text = scoreText + String(currentScore)
     }
@@ -34,7 +36,8 @@ class Score: SKLabelNode {
         currentScore += scoreToAdd
         text = scoreText + String(currentScore)
 
-        let scoreMessage = ScoreMessage(position: CGPoint(x: GameConfiguration.gameWidth / 3.5, y: 40),
+        fontColor = SKColor.green
+        let scoreMessage = ScoreMessage(position: CGPoint(x: GameConfiguration.gameWidth / 8, y: 40),
                                         points: scoreToAdd, color: SKColor.green)
         addChild(scoreMessage)
 
@@ -54,8 +57,9 @@ class Score: SKLabelNode {
         }
         currentScore -= actualScoreToSubstract
 
+        fontColor = SKColor.red
         text = scoreText + String(currentScore)
-        let scoreMessage = ScoreMessage(position: CGPoint(x: GameConfiguration.gameWidth / 3.5, y: 40),
+        let scoreMessage = ScoreMessage(position: CGPoint(x: GameConfiguration.gameWidth / 8, y: 40),
                                         points: -actualScoreToSubstract, color: SKColor.red)
         addChild(scoreMessage)
     }
@@ -69,6 +73,7 @@ class ScoreMessage: SKLabelNode {
 
         super.init()
 
+        fontName = "SlapAndCrumbly"
         self.position = position
         fontSize *= 1.3
         fontColor = color
