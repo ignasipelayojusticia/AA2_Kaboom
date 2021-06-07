@@ -114,7 +114,7 @@ class WoodenPanel: SKSpriteNode {
 
         player = playerReference
 
-        let currentLevel = "level" + String(currentWoodenPlankLevel)
+        let currentLevel = "level" + String(difficulty.values().index)
         let texture = SKTexture(imageNamed: "plank_0_" + currentLevel)
 
         splashAnimation = [SKTexture(imageNamed: "plank_1_" + currentLevel),
@@ -125,8 +125,9 @@ class WoodenPanel: SKSpriteNode {
         super.init(texture: texture, color: .clear, size: CGSize(width: 147, height: 53))
         self.position = CGPoint(x: 0, y: 0 + numberOnPlayer * 45)
 
-        physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 49 * currentWoodenPlankLevel,
-                                                        height: Int(size.height) / 2),
+        physicsBody = SKPhysicsBody(rectangleOf:
+                                        CGSize(width: 49 * (Difficulty.allCases.count + 1 - difficulty.values().index),
+                                               height: Int(size.height) / 2),
                                     center: CGPoint(x: 0, y: -size.height / 5))
         physicsBody?.affectedByGravity = false
         physicsBody?.isDynamic = false

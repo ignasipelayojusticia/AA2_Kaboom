@@ -33,15 +33,16 @@ class Score: SKLabelNode {
 
     public func addScore(scoreToAdd: Int) -> Bool {
 
-        currentScore += scoreToAdd
+        let actualScoreToAdd = scoreToAdd * difficulty.values().multiplier
+        currentScore += actualScoreToAdd
         text = scoreText + String(currentScore)
 
         fontColor = SKColor.green
         let scoreMessage = ScoreMessage(position: CGPoint(x: GameConfiguration.gameWidth / 8, y: 40),
-                                        points: scoreToAdd, color: SKColor.green)
+                                        points: actualScoreToAdd, color: SKColor.green)
         addChild(scoreMessage)
 
-        if Int(currentScore / 100) > currentHundred {
+        if Int(currentScore / 100) > currentHundred && actualScoreToAdd < 100 {
             currentHundred = Int(currentScore / 100)
             return true
         }

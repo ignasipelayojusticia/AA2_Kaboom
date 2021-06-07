@@ -43,6 +43,13 @@ class Bomberman: SKSpriteNode {
         run(SKAction.wait(forDuration: startRoundTimer), completion: startRound)
 
         addChild(bomb)
+
+        if difficulty != Difficulty.easy {
+            for _ in 2...difficulty.values().index {
+                forceLevelUp()
+                forceLevelUp()
+            }
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -94,10 +101,14 @@ class Bomberman: SKSpriteNode {
     private func levelUp() {
 
         round += 1
+        forceLevelUp()
+        bombsDropped = 0
+    }
+
+    private func forceLevelUp() {
         moveDuration *= 0.75
         bombDropInterval *= 0.75
         bombsToDrop = (Int)(Double(bombsToDrop) * 1.5)
-        bombsDropped = 0
     }
 
     public func bombOnEnd(bomb: Bomb) -> Bool {
@@ -109,7 +120,8 @@ class Bomberman: SKSpriteNode {
 
         removeAllActions()
         roundFinished = false
-        guard let explosionAnimationDuration = bombManager.bombs.first?.explosion.getAnimationDuration() else {return false}
+        guard let explosionAnimationDuration = bombManager.bombs.first?.explosion.getAnimationDuration()
+            else {return false}
         let duration = explosionAnimationDuration * Double(bombManager.bombs.count + 2)
         run(SKAction.wait(forDuration: duration), completion: startRound)
 
@@ -201,7 +213,7 @@ class BombManager: SKNode {
 
     public func getExplodingAnimationDuration() -> Double {
         guard let firstBomb = bombs.first else {return 0}
-        
+
         return firstBomb.explosion.getAnimationDuration() * Double(bombs.count)
     }
 }

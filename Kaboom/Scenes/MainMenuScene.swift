@@ -46,7 +46,6 @@ class MainMenuScene: Scene {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
         if let touch = touches.first {
 
             let location = touch.location(in: self)
@@ -54,20 +53,20 @@ class MainMenuScene: Scene {
 
             for node in nodesarray {
                 switch node.name {
-                case "easyButton":
-                    print("Easy")
-                    loadGame()
+                    case "easyButton":
+                        difficulty = Difficulty.easy
+                        loadGame()
 
-                case "mediumButton":
-                    print("Medium")
-                    loadGame()
+                    case "mediumButton":
+                        difficulty = Difficulty.medium
+                        loadGame()
 
-                case "hardButton":
-                    print("Hard")
-                    loadGame()
+                    case "hardButton":
+                        difficulty = Difficulty.hard
+                        loadGame()
 
-                default:
-                    break
+                    default:
+                        break
                 }
             }
         }

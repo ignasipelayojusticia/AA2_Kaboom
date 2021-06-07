@@ -22,4 +22,31 @@ enum CategoryBitMasks {
 
 let bombValue = 1
 let redBombValue = 50
-var currentWoodenPlankLevel = 2
+
+struct DifficultyValues {
+    var index: Int
+    var multiplier: Int
+
+    init(indexVariable: Int, multiplierVariable: Int) {
+        self.index = indexVariable
+        self.multiplier = multiplierVariable
+    }
+}
+
+enum Difficulty: CaseIterable {
+    case easy
+    case medium
+    case hard
+
+    func values() -> DifficultyValues {
+        switch self {
+        case Difficulty.easy:
+            return DifficultyValues(indexVariable: 1, multiplierVariable: 1)
+        case Difficulty.medium:
+            return DifficultyValues(indexVariable: 2, multiplierVariable: 2)
+        case Difficulty.hard:
+            return DifficultyValues(indexVariable: 3, multiplierVariable: 4)
+        }
+    }
+}
+var difficulty: Difficulty = Difficulty.easy
