@@ -13,21 +13,9 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        loadScene(sceneName: "MainMenu")
+
         guard let view = self.view as? SKView else { return }
-        if let scene = SKScene(fileNamed: "GameScene") {
-
-            var factor = view.frame.size.height / GameConfiguration.gameHeight
-            if view.frame.size.width / factor < GameConfiguration.gameWidth {
-                factor = view.frame.size.width / GameConfiguration.gameWidth
-            }
-
-            scene.size = CGSize(width: view.frame.size.width / factor,
-                                height: view.frame.size.height / factor)
-            scene.scaleMode = .aspectFit
-
-            view.presentScene(scene)
-        }
-
         view.ignoresSiblingOrder = true
 
         view.showsFPS = true
@@ -49,5 +37,45 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+
+    public func setSceneProperties(view: SKView, skScene: SKScene) {
+        
+        guard let scene = skScene as? Scene else {return}
+        scene.gameViewController = self
+        
+        var factor = view.frame.size.height / GameConfiguration.gameHeight
+        if view.frame.size.width / factor < GameConfiguration.gameWidth {
+            factor = view.frame.size.width / GameConfiguration.gameWidth
+        }
+
+        scene.size = CGSize(width: view.frame.size.width / factor,
+                            height: view.frame.size.height / factor)
+        scene.scaleMode = .aspectFit
+
+        view.presentScene(scene, transition: SKTransition.fade(with: UIColor.black, duration: 1))
+    }
+
+    public func loadScene(sceneName: String) {
+
+        guard let view = self.view as? SKView else { return }
+
+        switch sceneName {
+        case "SplashScreen":
+            break
+
+        case "MainMenu":
+            if let skScene = SKScene(fileNamed: "MainMenuScene") {
+                setSceneProperties(view: view, skScene: skScene)
+
+            }
+            break
+
+        case "Game":
+            break
+
+        default:
+            break
+        }
     }
 }

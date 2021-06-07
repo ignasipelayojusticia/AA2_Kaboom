@@ -12,6 +12,8 @@
 		EF47858F26543CC700A6051E /* MovingSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF47858E26543CC700A6051E /* MovingSprite.swift */; };
 		EF4785922656D20F00A6051E /* GameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4785912656D20F00A6051E /* GameConstants.swift */; };
 		EF86E9F8266D17C20021F14E /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86E9F7266D17C20021F14E /* MainMenuScene.swift */; };
+		EF86E9FA266D33FB0021F14E /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86E9F9266D33FB0021F14E /* Scene.swift */; };
+		EF86E9FE266D398C0021F14E /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EF86E9FD266D398C0021F14E /* MainMenuScene.sks */; };
 		EFA741FF265EFA94001901BC /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA741FE265EFA94001901BC /* Score.swift */; };
 		EFE36DFB2628B8CA00D49712 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE36DFA2628B8CA00D49712 /* AppDelegate.swift */; };
 		EFE36DFD2628B8CA00D49712 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EFE36DFC2628B8CA00D49712 /* GameScene.sks */; };
@@ -28,6 +30,8 @@
 		EF47858E26543CC700A6051E /* MovingSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingSprite.swift; sourceTree = "<group>"; };
 		EF4785912656D20F00A6051E /* GameConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConstants.swift; sourceTree = "<group>"; };
 		EF86E9F7266D17C20021F14E /* MainMenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
+		EF86E9F9266D33FB0021F14E /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
+		EF86E9FD266D398C0021F14E /* MainMenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenuScene.sks; sourceTree = "<group>"; };
 		EFA741FE265EFA94001901BC /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		EFE36DF72628B8CA00D49712 /* Kaboom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kaboom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE36DFA2628B8CA00D49712 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -67,7 +71,10 @@
 			isa = PBXGroup;
 			children = (
 				EFE36E002628B8CA00D49712 /* GameScene.swift */,
+				EFE36DFC2628B8CA00D49712 /* GameScene.sks */,
 				EF86E9F7266D17C20021F14E /* MainMenuScene.swift */,
+				EF86E9FD266D398C0021F14E /* MainMenuScene.sks */,
+				EF86E9F9266D33FB0021F14E /* Scene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -94,7 +101,6 @@
 				EF86E9F6266D17A60021F14E /* Scenes */,
 				EF478587264AFEEC00A6051E /* Scripts */,
 				EFE36DFA2628B8CA00D49712 /* AppDelegate.swift */,
-				EFE36DFC2628B8CA00D49712 /* GameScene.sks */,
 				EFE36DFE2628B8CA00D49712 /* Actions.sks */,
 				EFE36E022628B8CA00D49712 /* GameViewController.swift */,
 				EFE36E042628B8CA00D49712 /* Main.storyboard */,
@@ -164,6 +170,7 @@
 			files = (
 				EFE36E062628B8CA00D49712 /* Main.storyboard in Resources */,
 				EFE36DFD2628B8CA00D49712 /* GameScene.sks in Resources */,
+				EF86E9FE266D398C0021F14E /* MainMenuScene.sks in Resources */,
 				EFE36E082628B8CB00D49712 /* Assets.xcassets in Resources */,
 				EFE36DFF2628B8CA00D49712 /* Actions.sks in Resources */,
 			);
@@ -198,6 +205,7 @@
 			files = (
 				EF47858F26543CC700A6051E /* MovingSprite.swift in Sources */,
 				EF478589264AFF0400A6051E /* Player.swift in Sources */,
+				EF86E9FA266D33FB0021F14E /* Scene.swift in Sources */,
 				EFA741FF265EFA94001901BC /* Score.swift in Sources */,
 				EF86E9F8266D17C20021F14E /* MainMenuScene.swift in Sources */,
 				EFE36E012628B8CA00D49712 /* GameScene.swift in Sources */,

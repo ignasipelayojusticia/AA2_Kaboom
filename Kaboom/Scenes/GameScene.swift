@@ -8,7 +8,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: Scene, SKPhysicsContactDelegate {
 
     private var player: Player!
     private var bombManager: BombManager = BombManager()
@@ -26,18 +26,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(score)
 
         physicsWorld.contactDelegate = self
-    }
-
-    func touchDown(atPoint pos: CGPoint) {
-
-    }
-
-    func touchMoved(toPoint pos: CGPoint) {
-
-    }
-
-    func touchUp(atPoint pos: CGPoint) {
-
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -62,14 +50,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-
-    }
-
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-    }
-
     func didBegin(_ contact: SKPhysicsContact) {
 
         guard let nodeA = contact.bodyA.node else {return}
@@ -77,10 +57,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         if nodeA.name == "BombEndCollider" {
             guard let bombNode = nodeB as? Bomb else {return}
-            bomberman.bombOnEnd(bomb: bombNode)
+            if bomberman.bombOnEnd(bomb: bombNode) {
+                run(SKAction.wait(forDuration: bombManager.getExplodingAnimationDuration()),
+                    completion: loadMainMenuScene)
+            }
         } else if nodeB.name == "BombEndCollider" {
             guard let bombNode = nodeA as? Bomb else {return}
-            bomberman.bombOnEnd(bomb: bombNode)
+            if bomberman.bombOnEnd(bomb: bombNode) {
+                run(SKAction.wait(forDuration: bombManager.getExplodingAnimationDuration()),
+                    completion: loadMainMenuScene)
+            }
         } else {
             if !collisionPlayerBomb(nodeA: nodeA, nodeB: nodeB) {
                 collisionPlayerBomb(nodeA: nodeB, nodeB: nodeA)
@@ -100,5 +86,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.stopBomb(live: liveNode, round: bombNode.round, isFriendlyBomb: bombNode.isRedBomb)
         bombManager.stopBomb(bomb: bombNode)
         return true
+    }
+
+    private func loadMainMenuScene() {
+        gameViewController.loadScene(sceneName: "MainMenu")
     }
 }

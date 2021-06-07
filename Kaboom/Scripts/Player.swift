@@ -62,10 +62,10 @@ class Player: SKNode {
         runMoveAction(node: self, desiredPosition: desiredPosition, movementSpeed: moveDuration)
     }
 
-    public func loseLive() {
+    public func loseLive() -> Bool {
 
-        if lives.count == 0 {
-            return
+        if lives.count <= 0 {
+            return true
         }
 
         losingLive = true
@@ -74,8 +74,9 @@ class Player: SKNode {
         firstLive?.removeFromParent()
 
         if lives.count <= 0 {
-            print("GAME OVER")
+            return true
         }
+        return false
     }
 
     public func stopBomb(live: WoodenPanel, round: Int, isFriendlyBomb: Bool) {

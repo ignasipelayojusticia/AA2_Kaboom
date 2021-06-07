@@ -100,21 +100,21 @@ class Bomberman: SKSpriteNode {
         bombsDropped = 0
     }
 
-    public func bombOnEnd(bomb: Bomb) {
+    public func bombOnEnd(bomb: Bomb) -> Bool {
 
         if bomb.isRedBomb {
             bombManager.removeFriendlyBomb(bomb: bomb)
-            return
+            return false
         }
-        
+
         removeAllActions()
         roundFinished = false
-        guard let explosionAnimationDuration = bombManager.bombs.first?.explosion.getAnimationDuration() else {return}
+        guard let explosionAnimationDuration = bombManager.bombs.first?.explosion.getAnimationDuration() else {return false}
         let duration = explosionAnimationDuration * Double(bombManager.bombs.count + 2)
         run(SKAction.wait(forDuration: duration), completion: startRound)
 
         bombManager.freezeBombs()
-        player.loseLive()
+        return player.loseLive()
     }
 }
 
@@ -198,6 +198,12 @@ class BombManager: SKNode {
         bombs.remove(at: index)
         bomb.explode()
     }
+
+    public func getExplodingAnimationDuration() -> Double {
+        guard let firstBomb = bombs.first else {return 0}
+        
+        return firstBomb.explosion.getAnimationDuration() * Double(bombs.count)
+    }
 }
 
 class Bomb: SKSpriteNode {
@@ -212,7 +218,7 @@ class Bomb: SKSpriteNode {
         self.explosion = BombExplosion()
 
         let randomNumber = Int.random(in: 0...100)
-        isRedBomb = randomNumber < 5
+        isRedBomb = randomNumber < 5 && initializePhysics
 
         super.init(texture: SKTexture(imageNamed: isRedBomb ? "friendlybomb0" : "bomb0"),
                    color: .clear, size: CGSize(width: 35, height: 56))
@@ -260,7 +266,6 @@ class Bomb: SKSpriteNode {
         if exploded {return}
         exploded = true
 
-        
         removeFromParent()
     }
 }

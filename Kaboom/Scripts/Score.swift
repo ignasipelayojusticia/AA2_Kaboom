@@ -11,7 +11,7 @@ import SpriteKit
 class Score: SKLabelNode {
 
     private let scoreText: String = "SCORE: "
-    private var currentScore: Int = 0
+    public var currentScore: Int = 0
     private var currentHundred: Int = 0
 
     override init() {

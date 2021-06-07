@@ -8,16 +8,17 @@
 import SpriteKit
 import GameplayKit
 
-class MainMenuScene: SKScene {
+class MainMenuScene: Scene {
 
+    private let kaboomTitle: SKLabelNode = SKLabelNode()
 
     override func didMove(to view: SKView) {
-
+        
+        kaboomTitle.position = CGPoint(x: 0, y: -GameConfiguration.gameHeight / 3)
+        kaboomTitle.text = "Kaboom!"
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
-
+        gameViewController.loadScene(sceneName: "Game")
     }
 }
-
