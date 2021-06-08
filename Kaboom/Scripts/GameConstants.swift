@@ -27,27 +27,32 @@ struct DifficultyValues {
     var index: Int
     var multiplier: Int
     var percentageOfRedBombs: Int
+    var color: SKColor
 
-    init(indexVariable: Int, multiplierVariable: Int, percentageVariable: Int) {
+    init(indexVariable: Int, multiplierVariable: Int, percentageVariable: Int, colorVariable: SKColor) {
         self.index = indexVariable
         self.multiplier = multiplierVariable
         self.percentageOfRedBombs = percentageVariable
+        self.color = colorVariable
     }
 }
 
-enum Difficulty: CaseIterable {
-    case easy
-    case medium
-    case hard
+enum Difficulty: String, CaseIterable {
+    case easy = "easy"
+    case medium = "medium"
+    case hard = "hard"
 
     func values() -> DifficultyValues {
         switch self {
         case Difficulty.easy:
-            return DifficultyValues(indexVariable: 1, multiplierVariable: 1, percentageVariable: 5)
+            return DifficultyValues(indexVariable: 1, multiplierVariable: 1,
+                                    percentageVariable: 5, colorVariable: .green)
         case Difficulty.medium:
-            return DifficultyValues(indexVariable: 2, multiplierVariable: 2, percentageVariable: 10)
+            return DifficultyValues(indexVariable: 2, multiplierVariable: 2,
+                                    percentageVariable: 10, colorVariable: .yellow)
         case Difficulty.hard:
-            return DifficultyValues(indexVariable: 3, multiplierVariable: 4, percentageVariable: 20)
+            return DifficultyValues(indexVariable: 3, multiplierVariable: 4,
+                                    percentageVariable: 20, colorVariable: .red)
         }
     }
 }

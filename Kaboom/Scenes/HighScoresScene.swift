@@ -11,9 +11,9 @@ import GameplayKit
 class HighScoresScene: Scene {
 
     private var highScores: [HighScore] = [
-        HighScore(classification: 1, difficulty: "Easy", score: 1500),
-        HighScore(classification: 2, difficulty: "Hard", score: 1000),
-        HighScore(classification: 3, difficulty: "Medium", score: 500)
+        HighScore(classification: 1, difficulty: Difficulty.easy, score: 1500),
+        HighScore(classification: 2, difficulty: Difficulty.hard, score: 1000),
+        HighScore(classification: 3, difficulty: Difficulty.medium, score: 500)
     ]
 
     override func didMove(to view: SKView) {
@@ -37,9 +37,18 @@ class HighScoresScene: Scene {
         addChild(highScoresTitle2)
 
         for index in 0...(highScores.count - 1) {
-            highScores[index].position = CGPoint(x: 0, y: index * -60)
+            highScores[index].position = CGPoint(x: 70,
+                                                 y: GameConfiguration.gameHeight * -0.15 +
+                                                    CGFloat(index) * -GameConfiguration.gameHeight * 0.12)
             addChild(highScores[index])
         }
+
+        let tapToContinue = SKLabelNode()
+        tapToContinue.fontName = "SlapAndCrumbly"
+        tapToContinue.fontColor = SKColor.white
+        tapToContinue.position = CGPoint(x: 0, y: -GameConfiguration.gameHeight * 0.5)
+        tapToContinue.text = "tap to continue"
+        addChild(tapToContinue)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -57,20 +66,23 @@ class HighScore: SKNode {
     private var difficulty: SKLabelNode!
     private var score: SKLabelNode!
 
-    init(classification: Int, difficulty: String, score: Int) {
-        self.classification = SKSpriteNode(texture: SKTexture(imageNamed: "classification_" + String(classification)),
-                                           size: CGSize(width: 30, height: 30))
-        self.classification.position = CGPoint(x: -60, y: 0)
+    init(classification: Int, difficulty: Difficulty, score: Int) {
+        self.classification = SKSpriteNode(imageNamed: "trophy" + String(classification))
+        self.classification.position = CGPoint(x: -GameConfiguration.gameWidth / 4, y: 0)
 
         self.difficulty = SKLabelNode()
         self.difficulty.fontName = "SlapAndCrumbly"
-        self.difficulty.text = difficulty
-        self.difficulty.position = CGPoint(x: -30, y: 0)
+        self.difficulty.text = difficulty.rawValue
+        self.difficulty.position = CGPoint(x: -100, y: 35)
+        self.difficulty.fontColor = difficulty.values().color
+        self.difficulty.horizontalAlignmentMode = .left
 
         self.score = SKLabelNode()
         self.score.fontName = "SlapAndCrumbly"
         self.score.text = String(score)
-        self.score.position = CGPoint(x: 50, y: 0)
+        self.score.position = CGPoint(x: -100, y: -50)
+        self.score.fontSize *= 2
+        self.score.horizontalAlignmentMode = .left
 
         super.init()
 
