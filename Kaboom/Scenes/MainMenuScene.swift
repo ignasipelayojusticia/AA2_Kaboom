@@ -53,20 +53,20 @@ class MainMenuScene: Scene {
 
             for node in nodesarray {
                 switch node.name {
-                    case "easyButton":
-                        difficulty = Difficulty.easy
-                        loadGame()
+                case "easyButton":
+                    difficulty = Difficulty.easy
+                    loadGame()
 
-                    case "mediumButton":
-                        difficulty = Difficulty.medium
-                        loadGame()
+                case "mediumButton":
+                    difficulty = Difficulty.medium
+                    loadGame()
 
-                    case "hardButton":
-                        difficulty = Difficulty.hard
-                        loadGame()
+                case "hardButton":
+                    difficulty = Difficulty.hard
+                    loadGame()
 
-                    default:
-                        break
+                default:
+                    break
                 }
             }
         }

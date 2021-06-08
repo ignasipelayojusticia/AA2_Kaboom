@@ -14,6 +14,7 @@ class GameScene: Scene, SKPhysicsContactDelegate {
     private var bombManager: BombManager = BombManager()
     private var bomberman: Bomberman!
     private var score: Score = Score()
+    private var homeButton: SKSpriteNode!
 
     override func didMove(to view: SKView) {
 
@@ -22,38 +23,40 @@ class GameScene: Scene, SKPhysicsContactDelegate {
         player = Player(score: score, isHardMode: false)
         bomberman = Bomberman(player: player, bombManager: bombManager)
 
+        homeButton = SKSpriteNode(texture: SKTexture(imageNamed: "home"), size: CGSize(width: 98, height: 98))
+        homeButton.position = CGPoint(x: GameConfiguration.gameWidth / 2.5, y: GameConfiguration.gameHeight * 0.45)
+        homeButton.name = "home"
+
         addChild(player)
         addChild(bombManager)
         addChild(bomberman)
         addChild(score)
+        addChild(homeButton)
 
         physicsWorld.contactDelegate = self
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
         if let touch = touches.first {
-
-            player.initializeTouch(touch: touch, desiredPos: touch.location(in: self))
+            if !checkButtonsCollisions(touch: touch) {
+                player.initializeTouch(touch: touch, desiredPos: touch.location(in: self))
+            }
         }
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-
         for touch in touches where touch == player.movingTouch {
             player.moveTouch(desiredPos: touch.location(in: self))
         }
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-
         for touch in touches where touch == player.movingTouch {
             player.removeTouch()
         }
     }
 
     func didBegin(_ contact: SKPhysicsContact) {
-
         guard let nodeA = contact.bodyA.node else {return}
         guard let nodeB = contact.bodyB.node else {return}
 
@@ -61,17 +64,17 @@ class GameScene: Scene, SKPhysicsContactDelegate {
             guard let bombNode = nodeB as? Bomb else {return}
             if bomberman.bombOnEnd(bomb: bombNode) {
                 run(SKAction.wait(forDuration: bombManager.getExplodingAnimationDuration()),
-                    completion: loadMainMenuScene)
+                    completion: loadHighScoresScene)
             }
         } else if nodeB.name == "BombEndCollider" {
             guard let bombNode = nodeA as? Bomb else {return}
             if bomberman.bombOnEnd(bomb: bombNode) {
                 run(SKAction.wait(forDuration: bombManager.getExplodingAnimationDuration()),
-                    completion: loadMainMenuScene)
+                    completion: loadHighScoresScene)
             }
         } else {
             if !collisionPlayerBomb(nodeA: nodeA, nodeB: nodeB) {
-                collisionPlayerBomb(nodeA: nodeB, nodeB: nodeA)
+                collisionPlayerBombForced(nodeA: nodeB, nodeB: nodeA)
             }
         }
     }
@@ -90,7 +93,33 @@ class GameScene: Scene, SKPhysicsContactDelegate {
         return true
     }
 
+    private func collisionPlayerBombForced(nodeA: SKNode, nodeB: SKNode) {
+        guard let liveNode = nodeA as? WoodenPanel else {return}
+        guard let bombNode = nodeB as? Bomb else {return}
+
+        if bombNode.exploded {
+            return
+        }
+        player.stopBomb(live: liveNode, round: bombNode.round, isFriendlyBomb: bombNode.isRedBomb)
+        bombManager.stopBomb(bomb: bombNode)
+    }
+
+    private func checkButtonsCollisions(touch: UITouch) -> Bool {
+        let location = touch.location(in: self)
+        let nodesarray = nodes(at: location)
+
+        for node in nodesarray where node.name == "home" {
+            loadMainMenuScene()
+            return true
+        }
+        return false
+    }
+
     private func loadMainMenuScene() {
         gameViewController.loadScene(sceneName: "MainMenu")
+    }
+
+    private func loadHighScoresScene() {
+        gameViewController.loadScene(sceneName: "HighScores")
     }
 }

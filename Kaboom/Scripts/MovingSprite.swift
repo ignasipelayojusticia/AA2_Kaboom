@@ -8,7 +8,8 @@
 import Foundation
 import SpriteKit
 
-public func runMoveAction(node: SKNode, desiredPosition: CGPoint, movementSpeed: Double, callback: @escaping () -> Void) {
+public func runMoveAction(node: SKNode, desiredPosition: CGPoint, movementSpeed: Double,
+                          callback: @escaping () -> Void) {
 
     let widthFactor = Double(abs(node.position.x - desiredPosition.x) / GameConfiguration.gameWidth)
     let moveAction = SKAction.moveTo(x: desiredPosition.x, duration: Double(movementSpeed * widthFactor))
