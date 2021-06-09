@@ -61,12 +61,17 @@ class HighScoresScene: Scene {
     }
 
     private func initializeScores() {
-        for score in highScores {
-            score.removeFromParent()
-        }
-        highScores.removeAll()
+        clearHighScore()
 
         createData(dataName: "highScores")
+        orderDataWithNewValue()
+        saveNewHighScores()
+        for index in 0...(highScores.count - 1) {
+            highScores[index].position = CGPoint(x: 70,
+                                                 y: GameConfiguration.gameHeight * -0.15 +
+                                                    CGFloat(index) * -GameConfiguration.gameHeight * 0.12)
+            addChild(highScores[index])
+        }
     }
 
     private func createData(dataName: String) {
@@ -89,27 +94,14 @@ class HighScoresScene: Scene {
         // Decode the data
         do {
             let highScoresData = try JSONDecoder().decode([HighScoreData].self, from: data)
-            print(highScoresData.count)
             for number in 0...(highScoresData.count - 1) {
                 highScores.append(HighScore(classification: highScoresData[number].difficulty != Difficulty.empty ?
                                                 number + 1 : 0,
                                             difficulty: highScoresData[number].difficulty,
                                             score: highScoresData[number].score))
             }
-            print(highScores.count)
         } catch {
             print(error)
-        }
-
-        orderDataWithNewValue()
-        saveNewHighScores()
-
-        // Print data
-        for index in 0...(highScores.count - 1) {
-            highScores[index].position = CGPoint(x: 70,
-                                                 y: GameConfiguration.gameHeight * -0.15 +
-                                                    CGFloat(index) * -GameConfiguration.gameHeight * 0.12)
-            addChild(highScores[index])
         }
     }
 
@@ -119,10 +111,7 @@ class HighScoresScene: Scene {
                                                score: highScores[0].scoreValue)
             let newThirdScore = HighScoreData(difficulty: highScores[1].difficultyValue,
                                               score: highScores[1].scoreValue)
-            for score in highScores {
-                score.removeFromParent()
-            }
-            highScores.removeAll()
+            clearHighScore()
             highScores.append(HighScore(classification: 1, difficulty: difficulty, score: finalRoundScore))
             highScores.append(HighScore(classification: newSecondScore.difficulty != Difficulty.empty ? 2 : 0,
                                         difficulty: newSecondScore.difficulty,
@@ -135,10 +124,7 @@ class HighScoresScene: Scene {
                                               score: highScores[0].scoreValue)
             let newThirdScore = HighScoreData(difficulty: highScores[1].difficultyValue,
                                               score: highScores[1].scoreValue)
-            for score in highScores {
-                score.removeFromParent()
-            }
-            highScores.removeAll()
+            clearHighScore()
             highScores.append(HighScore(classification: 1, difficulty: newFirstScore.difficulty,
                                         score: newFirstScore.score))
             highScores.append(HighScore(classification: 2, difficulty: difficulty, score: finalRoundScore))
@@ -150,16 +136,20 @@ class HighScoresScene: Scene {
                                               score: highScores[0].scoreValue)
             let newSecondScore = HighScoreData(difficulty: highScores[1].difficultyValue,
                                                score: highScores[1].scoreValue)
-            for score in highScores {
-                score.removeFromParent()
-            }
-            highScores.removeAll()
+            clearHighScore()
             highScores.append(HighScore(classification: 1, difficulty: newFirstScore.difficulty,
                                         score: newFirstScore.score))
             highScores.append(HighScore(classification: 2, difficulty: newSecondScore.difficulty,
                                         score: newSecondScore.score))
             highScores.append(HighScore(classification: 3, difficulty: difficulty, score: finalRoundScore))
         }
+    }
+
+    private func clearHighScore() {
+        for score in highScores {
+            score.removeFromParent()
+        }
+        highScores.removeAll()
     }
 
     private func saveNewHighScores() {

@@ -126,7 +126,7 @@ class WoodenPanel: SKSpriteNode {
         self.position = CGPoint(x: 0, y: 0 + numberOnPlayer * 45)
 
         physicsBody = SKPhysicsBody(rectangleOf:
-                                        CGSize(width: 49 * (Difficulty.allCases.count + 1 - difficulty.values().index),
+                                        CGSize(width: 49 * (Difficulty.allCases.count - difficulty.values().index),
                                                height: Int(size.height) / 2),
                                     center: CGPoint(x: 0, y: -size.height / 5))
         physicsBody?.affectedByGravity = false
