@@ -120,6 +120,7 @@ class GameScene: Scene, SKPhysicsContactDelegate {
     }
 
     private func loadHighScoresScene() {
+        finalRoundScore = score.currentScore
         gameViewController.loadScene(sceneName: "HighScores")
     }
 }

@@ -73,6 +73,7 @@ class MainMenuScene: Scene {
     }
 
     private func loadGame() {
+        finalRoundScore = 0
         gameViewController.loadScene(sceneName: "Game")
     }
 }

@@ -37,10 +37,11 @@ struct DifficultyValues {
     }
 }
 
-enum Difficulty: String, CaseIterable {
-    case easy = "easy"
-    case medium = "medium"
-    case hard = "hard"
+enum Difficulty: String, CaseIterable, Codable {
+    case easy
+    case medium
+    case hard
+    case empty
 
     func values() -> DifficultyValues {
         switch self {
@@ -53,7 +54,18 @@ enum Difficulty: String, CaseIterable {
         case Difficulty.hard:
             return DifficultyValues(indexVariable: 3, multiplierVariable: 4,
                                     percentageVariable: 20, colorVariable: .red)
+        case Difficulty.empty:
+            return DifficultyValues(indexVariable: 4, multiplierVariable: 0,
+                                    percentageVariable: 0, colorVariable: .white)
         }
     }
 }
 var difficulty: Difficulty = Difficulty.easy
+
+var finalRoundScore: Int = 0
+
+// HIGH SCORE
+struct HighScoreData : Codable {
+    let difficulty: Difficulty
+    let score: Int
+}

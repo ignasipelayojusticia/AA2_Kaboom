@@ -36,12 +36,13 @@ class HighScoresScene: Scene {
         highScoresTitle2.text = "SCORES"
         addChild(highScoresTitle2)
 
-        for index in 0...(highScores.count - 1) {
-            highScores[index].position = CGPoint(x: 70,
-                                                 y: GameConfiguration.gameHeight * -0.15 +
-                                                    CGFloat(index) * -GameConfiguration.gameHeight * 0.12)
-            addChild(highScores[index])
-        }
+        let yourScore = SKLabelNode()
+        yourScore.fontName = "SlapAndCrumbly"
+        yourScore.fontSize *= 3
+        yourScore.text = String(finalRoundScore)
+        addChild(yourScore)
+
+        initializeScores()
 
         let tapToContinue = SKLabelNode()
         tapToContinue.fontName = "SlapAndCrumbly"
@@ -58,6 +59,121 @@ class HighScoresScene: Scene {
     private func loadMainMenu() {
         gameViewController.loadScene(sceneName: "MainMenu")
     }
+
+    private func initializeScores() {
+        for score in highScores {
+            score.removeFromParent()
+        }
+        highScores.removeAll()
+
+        createData(dataName: "highScores")
+    }
+
+    private func createData(dataName: String) {
+        // Load Data or create empty data if not created
+        guard let data = UserDefaults.standard.value(forKey: dataName) as? Data else {
+            do {
+                let emptyData = try JSONEncoder().encode([
+                    HighScoreData(difficulty: Difficulty.empty, score: 0),
+                    HighScoreData(difficulty: Difficulty.empty, score: 0),
+                    HighScoreData(difficulty: Difficulty.empty, score: 0)
+                ])
+                UserDefaults.standard.setValue(emptyData, forKey: dataName)
+                initializeScores()
+            } catch {
+                print(error)
+            }
+            return
+        }
+
+        // Decode the data
+        do {
+            let highScoresData = try JSONDecoder().decode([HighScoreData].self, from: data)
+            print(highScoresData.count)
+            for number in 0...(highScoresData.count - 1) {
+                highScores.append(HighScore(classification: highScoresData[number].difficulty != Difficulty.empty ?
+                                                number + 1 : 0,
+                                            difficulty: highScoresData[number].difficulty,
+                                            score: highScoresData[number].score))
+            }
+            print(highScores.count)
+        } catch {
+            print(error)
+        }
+
+        orderDataWithNewValue()
+        saveNewHighScores()
+
+        // Print data
+        for index in 0...(highScores.count - 1) {
+            highScores[index].position = CGPoint(x: 70,
+                                                 y: GameConfiguration.gameHeight * -0.15 +
+                                                    CGFloat(index) * -GameConfiguration.gameHeight * 0.12)
+            addChild(highScores[index])
+        }
+    }
+
+    private func orderDataWithNewValue() {
+        if finalRoundScore > highScores[0].scoreValue {
+            let newSecondScore = HighScoreData(difficulty: highScores[0].difficultyValue,
+                                               score: highScores[0].scoreValue)
+            let newThirdScore = HighScoreData(difficulty: highScores[1].difficultyValue,
+                                              score: highScores[1].scoreValue)
+            for score in highScores {
+                score.removeFromParent()
+            }
+            highScores.removeAll()
+            highScores.append(HighScore(classification: 1, difficulty: difficulty, score: finalRoundScore))
+            highScores.append(HighScore(classification: newSecondScore.difficulty != Difficulty.empty ? 2 : 0,
+                                        difficulty: newSecondScore.difficulty,
+                                        score: newSecondScore.score))
+            highScores.append(HighScore(classification: newThirdScore.difficulty != Difficulty.empty ? 3 : 0,
+                                        difficulty: newThirdScore.difficulty,
+                                        score: newThirdScore.score))
+        } else if finalRoundScore > highScores[1].scoreValue {
+            let newFirstScore = HighScoreData(difficulty: highScores[0].difficultyValue,
+                                              score: highScores[0].scoreValue)
+            let newThirdScore = HighScoreData(difficulty: highScores[1].difficultyValue,
+                                              score: highScores[1].scoreValue)
+            for score in highScores {
+                score.removeFromParent()
+            }
+            highScores.removeAll()
+            highScores.append(HighScore(classification: 1, difficulty: newFirstScore.difficulty,
+                                        score: newFirstScore.score))
+            highScores.append(HighScore(classification: 2, difficulty: difficulty, score: finalRoundScore))
+            highScores.append(HighScore(classification: newThirdScore.difficulty != Difficulty.empty ? 3 : 0,
+                                        difficulty: newThirdScore.difficulty,
+                                        score: newThirdScore.score))
+        } else if finalRoundScore > highScores[2].scoreValue {
+            let newFirstScore = HighScoreData(difficulty: highScores[0].difficultyValue,
+                                              score: highScores[0].scoreValue)
+            let newSecondScore = HighScoreData(difficulty: highScores[1].difficultyValue,
+                                               score: highScores[1].scoreValue)
+            for score in highScores {
+                score.removeFromParent()
+            }
+            highScores.removeAll()
+            highScores.append(HighScore(classification: 1, difficulty: newFirstScore.difficulty,
+                                        score: newFirstScore.score))
+            highScores.append(HighScore(classification: 2, difficulty: newSecondScore.difficulty,
+                                        score: newSecondScore.score))
+            highScores.append(HighScore(classification: 3, difficulty: difficulty, score: finalRoundScore))
+        }
+    }
+
+    private func saveNewHighScores() {
+        do {
+            let newHighScoreData = try JSONEncoder().encode([
+                HighScoreData(difficulty: highScores[0].difficultyValue, score: highScores[0].scoreValue),
+                HighScoreData(difficulty: highScores[1].difficultyValue, score: highScores[1].scoreValue),
+                HighScoreData(difficulty: highScores[2].difficultyValue, score: highScores[2].scoreValue)
+            ])
+            UserDefaults.standard.setValue(newHighScoreData, forKey: "highScores")
+        } catch {
+            print(error)
+        }
+    }
 }
 
 class HighScore: SKNode {
@@ -65,8 +181,13 @@ class HighScore: SKNode {
     private var classification: SKSpriteNode!
     private var difficulty: SKLabelNode!
     private var score: SKLabelNode!
+    public var difficultyValue: Difficulty
+    public var scoreValue: Int
 
     init(classification: Int, difficulty: Difficulty, score: Int) {
+        self.difficultyValue = difficulty
+        self.scoreValue = score
+
         self.classification = SKSpriteNode(imageNamed: "trophy" + String(classification))
         self.classification.position = CGPoint(x: -GameConfiguration.gameWidth / 4, y: 0)
 
