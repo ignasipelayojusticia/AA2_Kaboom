@@ -67,7 +67,7 @@ class HighScoresScene: Scene {
         orderDataWithNewValue()
         saveNewHighScores()
         for index in 0...(highScores.count - 1) {
-            highScores[index].position = CGPoint(x: 70,
+            highScores[index].position = CGPoint(x: 80,
                                                  y: GameConfiguration.gameHeight * -0.15 +
                                                     CGFloat(index) * -GameConfiguration.gameHeight * 0.12)
             addChild(highScores[index])

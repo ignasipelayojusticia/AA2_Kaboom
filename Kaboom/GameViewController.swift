@@ -13,8 +13,7 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadScene(sceneName: "HighScores")
-        //loadScene(sceneName: "SplashScreen")
+        loadScene(sceneName: "SplashScreen")
 
         guard let view = self.view as? SKView else { return }
         view.ignoresSiblingOrder = true

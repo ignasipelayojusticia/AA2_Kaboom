@@ -95,7 +95,6 @@ class Player: SKNode {
 
     private func oneUp() {
         if lives.count == maximumLives {
-            print("MAX LIVES")
             return
         }
 
