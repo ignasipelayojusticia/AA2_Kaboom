@@ -63,7 +63,9 @@ class HighScoresScene: Scene {
     private func initializeScores() {
         clearHighScore()
 
-        createData(dataName: "highScores")
+        if !createData(dataName: "highScores") {
+            return
+        }
         orderDataWithNewValue()
         saveNewHighScores()
         for index in 0...(highScores.count - 1) {
@@ -74,7 +76,7 @@ class HighScoresScene: Scene {
         }
     }
 
-    private func createData(dataName: String) {
+    private func createData(dataName: String) -> Bool {
         // Load Data or create empty data if not created
         guard let data = UserDefaults.standard.value(forKey: dataName) as? Data else {
             do {
@@ -88,7 +90,7 @@ class HighScoresScene: Scene {
             } catch {
                 print(error)
             }
-            return
+            return false
         }
 
         // Decode the data
@@ -103,6 +105,7 @@ class HighScoresScene: Scene {
         } catch {
             print(error)
         }
+        return true
     }
 
     private func orderDataWithNewValue() {

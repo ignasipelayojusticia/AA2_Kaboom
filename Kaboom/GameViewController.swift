@@ -18,9 +18,9 @@ class GameViewController: UIViewController {
         guard let view = self.view as? SKView else { return }
         view.ignoresSiblingOrder = true
 
-        view.showsFPS = true
-        view.showsNodeCount = true
-        view.showsPhysics = true
+        view.showsFPS = false
+        view.showsNodeCount = false
+        view.showsPhysics = false
     }
 
     override var shouldAutorotate: Bool {

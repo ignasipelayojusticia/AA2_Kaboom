@@ -17,7 +17,6 @@
 		EF86EA01266E8EA80021F14E /* SlapAndCrumbly.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF86EA00266E8E9D0021F14E /* SlapAndCrumbly.ttf */; };
 		EF86EA03266EA8330021F14E /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EF86EA02266EA8330021F14E /* MainMenuScene.sks */; };
 		EF86EA05266EA84D0021F14E /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86EA04266EA84D0021F14E /* MainMenuScene.swift */; };
-		EF86EA0B266FDE8D0021F14E /* HighScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86EA0A266FDE8D0021F14E /* HighScore.swift */; };
 		EF86EA0D266FE3A80021F14E /* HighScoresScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86EA0C266FE3A80021F14E /* HighScoresScene.swift */; };
 		EF86EA0F266FE3D80021F14E /* HighScoresScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EF86EA0E266FE3D80021F14E /* HighScoresScene.sks */; };
 		EFA741FF265EFA94001901BC /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA741FE265EFA94001901BC /* Score.swift */; };
@@ -40,7 +39,6 @@
 		EF86EA00266E8E9D0021F14E /* SlapAndCrumbly.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = SlapAndCrumbly.ttf; path = ../../../slap_and_crumbly/SlapAndCrumbly.ttf; sourceTree = "<group>"; };
 		EF86EA02266EA8330021F14E /* MainMenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenuScene.sks; sourceTree = "<group>"; };
 		EF86EA04266EA84D0021F14E /* MainMenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
-		EF86EA0A266FDE8D0021F14E /* HighScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScore.swift; sourceTree = "<group>"; };
 		EF86EA0C266FE3A80021F14E /* HighScoresScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScoresScene.swift; sourceTree = "<group>"; };
 		EF86EA0E266FE3D80021F14E /* HighScoresScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = HighScoresScene.sks; sourceTree = "<group>"; };
 		EFA741FE265EFA94001901BC /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
@@ -73,7 +71,6 @@
 				EF47858E26543CC700A6051E /* MovingSprite.swift */,
 				EF4785912656D20F00A6051E /* GameConstants.swift */,
 				EFA741FE265EFA94001901BC /* Score.swift */,
-				EF86EA0A266FDE8D0021F14E /* HighScore.swift */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -239,7 +236,6 @@
 				EFE36E032628B8CA00D49712 /* GameViewController.swift in Sources */,
 				EF4785922656D20F00A6051E /* GameConstants.swift in Sources */,
 				EFE36DFB2628B8CA00D49712 /* AppDelegate.swift in Sources */,
-				EF86EA0B266FDE8D0021F14E /* HighScore.swift in Sources */,
 				EF47858C264D9F5600A6051E /* Bomberman.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
